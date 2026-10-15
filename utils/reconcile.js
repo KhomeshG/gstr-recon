@@ -5,6 +5,7 @@
  * accumulators (never leaks outside a function).
  */
 const XLSX = require('xlsx');
+const { normalizeExcelData, cleaningSummary, parseAmount } = require('./normalizer');
 
 /* ───────────────────────────── Config ───────────────────────────── */
 const TOLERANCE = 10;               // ₹ tolerance on taxable value for "probable" matches
@@ -18,16 +19,8 @@ const cleanInvoiceNum = (str) =>
 
 const cleanGSTIN = (str) => String(str ?? '').replace(/\s+/g, '').toUpperCase();
 
-const cleanAmount = (val) => {
-  if (typeof val === 'number') return Number.isFinite(val) ? round2(val) : 0;
-  const text = String(val ?? '').trim();
-  if (!text) return 0;
-  const negative = /^\(.*\)$/.test(text) || /^-/.test(text);
-  const num = parseFloat(text.replace(/[^0-9.]/g, ''));
-  return Number.isFinite(num) ? round2(negative ? -num : num) : 0;
-};
-
-const normalizeHeader = (h) => String(h ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+/** Delegates to the normalizer so ₹ / commas / (neg) / SAP trailing-minus / Dr-Cr are handled in one place. */
+const cleanAmount = (val) => parseAmount(val).value ?? 0;
 
 const formatDate = (val) => {
   if (val === undefined || val === null || val === '') return '';
@@ -38,72 +31,13 @@ const formatDate = (val) => {
   return String(val).trim();
 };
 
-/* ─────────────────────────── Column mapping ─────────────────────── */
-const FIELD_ALIASES = {
-  gstin: ['gstin', 'gstinofsupplier', 'suppliergstin', 'vendorgstin', 'partygstin', 'gstno', 'gstinuin', 'gstnumber'],
-  invoice: ['invoicenumber', 'invoiceno', 'invoicenum', 'invoice', 'billno', 'billnumber', 'invno', 'documentnumber', 'docno', 'supplierinvoiceno', 'voucherno'],
-  taxable: ['taxablevalue', 'taxableamount', 'taxable', 'taxablevaluers', 'basicvalue', 'assessablevalue', 'taxableamt'],
-  name: ['tradename', 'legalname', 'tradelegalname', 'suppliername', 'vendorname', 'partyname', 'name', 'particulars', 'supplier'],
-  date: ['invoicedate', 'billdate', 'date', 'documentdate', 'invdate'],
-  igst: ['igst', 'integratedtax', 'integratedtaxamount', 'igstamount'],
-  cgst: ['cgst', 'centraltax', 'centraltaxamount', 'cgstamount'],
-  sgst: ['sgst', 'sgstutgst', 'stateuttax', 'statetax', 'stateuttaxamount', 'sgstamount', 'utgst'],
-  totalTax: ['totaltax', 'totalgst', 'gstamount', 'taxamount', 'gst'],
-};
-const REQUIRED_FIELDS = ['gstin', 'invoice', 'taxable'];
-const FIELD_LABELS = { gstin: 'GSTIN', invoice: 'Invoice Number', taxable: 'Taxable Value' };
-
-const buildColumnMap = (headerRow) => {
-  const normalized = headerRow.map(normalizeHeader);
-  return Object.fromEntries(
-    Object.entries(FIELD_ALIASES).map(([field, aliases]) => [
-      field,
-      // alias order = priority (e.g. "Supplier Invoice No" beats "Voucher No")
-      aliases.map((a) => normalized.indexOf(a)).find((i) => i >= 0) ?? -1,
-    ])
-  );
-};
-
-const scoreColumnMap = (map) => REQUIRED_FIELDS.filter((f) => map[f] >= 0).length;
-
 const isFilled = (c) => String(c ?? '').trim() !== '';
-
-/** Overlay two consecutive header rows (official GSTR-2B has a 2-row merged header). */
-const mergeHeaderRows = (upper = [], lower = []) =>
-  Array.from({ length: Math.max(upper.length, lower.length) }, (_, k) =>
-    isFilled(lower[k]) ? lower[k] : upper[k]
-  );
-
-/**
- * Looks through the first 25 rows for the best header, trying each row on its own and
- * merged with the row below it. `index` is the LAST header row, so data starts at index + 1.
- */
-const findHeaderRow = (rows) =>
-  rows
-    .slice(0, 25)
-    .flatMap((row, i) => [
-      { index: i, headers: row },
-      { index: i + 1, headers: mergeHeaderRows(row, rows[i + 1]) },
-    ])
-    .reduce(
-      (best, cand) => {
-        const map = buildColumnMap(cand.headers);
-        const score = scoreColumnMap(map);
-        return score > best.score ? { index: cand.index, score, map, headers: cand.headers } : best;
-      },
-      { index: -1, score: -1, map: {}, headers: [] }
-    );
 
 /* ─────────────────────────── Validation ─────────────────────────── */
 const TAX_FIELDS = ['igst', 'cgst', 'sgst', 'totalTax'];
 
-/** True when a raw cell is blank, a dash placeholder, or a clean number (₹, commas, (neg) allowed). */
-const isValidAmountCell = (val) => {
-  if (val === undefined || val === null) return true;
-  if (typeof val === 'number') return Number.isFinite(val);
-  const t = String(val).replace(/[₹,\s]|rs\.?|inr/gi, '');
-  return t === '' || /^[-—–]+$/.test(t) || /^\(?-?(\d+\.?\d*|\.\d+)\)?$/.test(t);
-};
+/** True when a cell is blank, a dash placeholder, or a clean number (₹, commas, (neg), Dr/Cr allowed). */
+const isValidAmountCell = (val) => parseAmount(val).status !== 'invalid';
 
 /** Returns every problem found in a raw-fields object. `key` maps to an input in the fix form. */
 const validateFields = (f) => {
@@ -117,12 +51,6 @@ const validateFields = (f) => {
 };
 
 /* ─────────────────────────── Parsing ────────────────────────────── */
-const isBlankRow = (row) => row.every((c) => String(c ?? '').trim() === '');
-
-/** Pull the raw (uncleaned) value of every known field out of one sheet row. */
-const rowToFields = (columnMap, row) =>
-  Object.fromEntries(Object.keys(FIELD_ALIASES).map((f) => [f, columnMap[f] >= 0 ? row[columnMap[f]] : undefined]));
-
 /** Raw fields -> normalized invoice record. */
 const fieldsToRecord = (f, excelRow) => {
   const igst = cleanAmount(f.igst);
@@ -152,52 +80,20 @@ const toRawData = (headers, row) =>
   }, {});
 
 /**
- * Parse one uploaded file buffer. Returns {ok, records, skippedRows, sheet} or {ok:false, error}.
+ * Parse one uploaded file. The raw sheet goes through the normalizer first (banner/footer cleanup,
+ * fuzzy column mapping, ₹/date/invoice scrubbing); this function then validates each row.
+ * Returns { ok, records, skippedRows, sheet, cleaning }, or { ok:false, error },
+ * or { ok:false, needsManualMapping:true, request } when mandatory columns can't be found confidently.
  * Rows that fail validation are NEVER dropped silently — they come back in `skippedRows`
  * as { id, source, rowIndex, rawData, fields, reasonForSkipping, badFields }.
  */
-const parseFile = (file, label, source = label === 'GSTR-2B' ? 'portal' : 'books') => {
-  let workbook;
-  try {
-    workbook = XLSX.read(file.buffer, { type: 'buffer', raw: true });
-  } catch (e) {
-    return { ok: false, error: `Couldn't read the ${label} file "${file.originalname}". Make sure it is a valid .xlsx, .xls or .csv file.` };
-  }
+const parseFile = (file, label, source = label === 'GSTR-2B' ? 'portal' : 'books', overrides) => {
+  const norm = normalizeExcelData(file, { side: source, overrides });
+  if (!norm.ok) return norm;
 
-  // Keep blank rows while reading so array position -> true Excel row number; then drop them for header detection.
-  const candidates = workbook.SheetNames.map((name) => {
-    const sheet = workbook.Sheets[name];
-    const startRow = sheet['!ref'] ? XLSX.utils.decode_range(sheet['!ref']).s.r : 0;
-    const filled = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', blankrows: true })
-      .map((row, i) => ({ row, excelRow: startRow + i + 1 }))
-      .filter(({ row }) => !isBlankRow(row));
-    const rows = filled.map((x) => x.row);
-    return { name, filled, rows, header: findHeaderRow(rows) };
-  }).sort((a, b) =>
-    b.header.score - a.header.score ||
-    Number(/^b2b$/i.test(b.name)) - Number(/^b2b$/i.test(a.name)) ||
-    b.rows.length - a.rows.length
-  );
-
-  const best = candidates[0];
-  if (!best || best.rows.length === 0) {
-    return { ok: false, error: `The ${label} file "${file.originalname}" looks empty. Please upload a file that has data rows.` };
-  }
-
-  const { index, score, map, headers } = best.header;
-  if (score < REQUIRED_FIELDS.length) {
-    const missing = REQUIRED_FIELDS.filter((f) => map[f] < 0).map((f) => FIELD_LABELS[f]);
-    const seen = (headers || best.rows[0] || []).filter(Boolean).slice(0, 10).join(', ') || 'none found';
-    return {
-      ok: false,
-      error: `The ${label} file is missing column(s): ${missing.join(', ')}. Headers we found: ${seen}. Rename your columns (e.g. "GSTIN", "Invoice Number", "Taxable Value") and try again.`,
-    };
-  }
-
-  const parsed = best.filled.slice(index + 1).map(({ row, excelRow }) => {
-    const fields = rowToFields(map, row);
-    return { row, excelRow, fields, check: validateFields(fields) };
-  });
+  const parsed = norm.rows.map(({ raw, rowNumber, fields }) => ({
+    row: raw, excelRow: rowNumber, fields, check: validateFields(fields),
+  }));
 
   const prefix = label[0];
   const records = parsed
@@ -211,7 +107,7 @@ const parseFile = (file, label, source = label === 'GSTR-2B' ? 'portal' : 'books
       source,
       sourceLabel: label,
       rowIndex: p.excelRow,
-      rawData: toRawData(headers, p.row),
+      rawData: toRawData(norm.headers, p.row),
       fields: p.fields,
       reasonForSkipping: p.check.reason,
       badFields: p.check.issues.map((i) => i.key),
@@ -220,7 +116,12 @@ const parseFile = (file, label, source = label === 'GSTR-2B' ? 'portal' : 'books
   if (records.length === 0) {
     return { ok: false, error: `No usable rows found in the ${label} file. Each row needs a GSTIN and an invoice number.` };
   }
-  return { ok: true, records, skippedRows, sheet: best.name };
+
+  const cleaning = {
+    source, sourceLabel: label, fileName: norm.fileName, manual: norm.manual,
+    stats: norm.stats, notes: norm.notes, text: cleaningSummary(norm),
+  };
+  return { ok: true, records, skippedRows, sheet: norm.sheet, cleaning };
 };
 
 const buildWarnings = (skippedRows) =>
@@ -374,8 +275,11 @@ const buildSummary = (booksCount, portalCount, r) => {
 const formatINR = (n) =>
   Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+/** '2026-10-02' -> '02-10-2026' for people; anything else is shown as typed. */
+const displayDate = (d) => String(d ?? '').replace(/^(\d{4})-(\d{2})-(\d{2})$/, '$3-$2-$1');
+
 const reminderMessage = (r) =>
-  `Hi ${r.name || 'Sir/Madam'}, your invoice ${r.invoiceRaw} dated ${r.date || 'N/A'} for ₹${formatINR(r.tax)} tax amount ` +
+  `Hi ${r.name || 'Sir/Madam'}, your invoice ${r.invoiceRaw} dated ${displayDate(r.date) || 'N/A'} for ₹${formatINR(r.tax)} tax amount ` +
   'is currently missing from GSTR-2B. Please upload this in your GSTR-1 return at the earliest so we can process your pending payment.';
 
 const reminderSubject = (r) => `Urgent: Missing Invoice ${r.invoiceRaw} in GSTR-2B`;
@@ -504,19 +408,43 @@ const buildOutcome = (inputs, ledger = emptyLedger(), now = new Date().toISOStri
   };
 };
 
-/** Takes the two multer file objects; opts = { period: 'YYYY-MM', ledger }. */
+/**
+ * Takes the two multer file objects; opts = { period: 'YYYY-MM', ledger, overrides: { books, portal } }.
+ *  - { ok:false, error }                         a file is unreadable / empty
+ *  - { ok:false, needsManualMapping:true, … }    mandatory columns not found with confidence
+ *  - { ok:true, inputs, cleaning, …outcome }     reconciled
+ */
 const processUpload = (booksFile, portalFile, opts = {}) => {
-  const books = parseFile(booksFile, 'Purchase Register', 'books');
-  if (!books.ok) return books;
-  const portal = parseFile(portalFile, 'GSTR-2B', 'portal');
-  if (!portal.ok) return portal;
+  const overrides = opts.overrides || {};
+  const books = parseFile(booksFile, 'Purchase Register', 'books', overrides.books);
+  const portal = parseFile(portalFile, 'GSTR-2B', 'portal', overrides.portal);
+
+  const failed = [books, portal].find((r) => !r.ok && !r.needsManualMapping);
+  if (failed) return failed;
+
+  const requests = [books, portal].filter((r) => r.needsManualMapping).map((r) => r.request);
+  if (requests.length) {
+    return {
+      ok: false,
+      needsManualMapping: true,
+      detectedHeaders: requests[0].detectedHeaders,
+      rawPreviewRows: requests[0].rawPreviewRows,
+      requests,
+    };
+  }
+
   const inputs = {
     books: books.records,
     portal: portal.records,
     skippedRows: [...books.skippedRows, ...portal.skippedRows],
     period: isPeriod(opts.period) ? opts.period : derivePeriod(portal.records),
   };
-  return { ok: true, inputs, ...buildOutcome(inputs, opts.ledger || emptyLedger()) };
+  return {
+    ok: true,
+    inputs,
+    cleaning: [books.cleaning, portal.cleaning],
+    ...buildOutcome(inputs, opts.ledger || emptyLedger()),
+  };
 };
 
 module.exports = {

@@ -7,7 +7,8 @@
     "value": 2,
     "missingPortal": 5,
     "missingBooks": 5,
-    "skippedBooksRows": 3,
+    "skippedBooksRows": 2,
+    "footerRowsRemoved": 1,
     "itcAtRisk": 9270.1
   },
   "entries": [

@@ -20,6 +20,7 @@ const createStore = (ttlMs = 60 * 60 * 1000) => {
       if (prev) entries.set(id, { data, expires: Date.now() + ttlMs });
       return Boolean(prev);
     },
+    delete: (id) => entries.delete(id),
     get: (id) => {
       sweep();
       return entries.get(id)?.data ?? null;

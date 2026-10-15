@@ -34,6 +34,26 @@
     </div>
   </div>
 
+  <% if (typeof cleaning !== 'undefined' && cleaning.length) { %>
+  <section class="mt-5 grid gap-3 md:grid-cols-2" aria-label="Automatic data cleaning">
+    <% cleaning.forEach(c => { %>
+    <div class="flex items-start gap-3 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+      <svg class="mt-0.5 h-4 w-4 shrink-0 text-sky-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.8 3.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd"/></svg>
+      <div class="min-w-0">
+        <p class="break-words"><%= c.text %></p>
+        <% if (c.manual) { %><p class="mt-1 text-xs text-sky-800">Columns were mapped by you.</p><% } %>
+        <% (c.notes || []).forEach(n => { %><p class="mt-1 text-xs text-amber-800"><%= n %></p><% }) %>
+        <% if (c.stats.removedRows) { %>
+        <p class="mt-1 text-xs text-sky-800">
+          Removed: <%= c.stats.removedSummaryRows %> total/page line(s), <%= c.stats.removedBlankRows %> row(s) with no GSTIN or invoice number, <%= c.stats.repeatedHeaderRows %> repeated header(s).
+        </p>
+        <% } %>
+      </div>
+    </div>
+    <% }) %>
+  </section>
+  <% } %>
+
   <% if (warnings.length) { %>
   <div role="status" class="mt-5 rounded-lg border border-amber-200 bg-amber-50 text-amber-900 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-2">
     <div class="space-y-1"><% warnings.forEach(w => { %><p><%= w %></p><% }) %></div>

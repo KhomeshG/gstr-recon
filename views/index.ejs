@@ -12,6 +12,13 @@
   </div>
   <% } %>
 
+  <% if (mappingRequest) { %>
+  <div id="map-banner" class="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+    <p>We need you to confirm a few columns before we can reconcile <strong><%= mappingRequest.files.map(f => f.fileName).join(' and ') %></strong>.</p>
+    <button type="button" id="map-reopen" class="rounded-md bg-sky-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-sky-800">Open column mapping</button>
+  </div>
+  <% } %>
+
   <form id="form" action="/reconcile" method="POST" enctype="multipart/form-data" class="mt-8" novalidate>
     <div class="grid gap-5 sm:grid-cols-2">
       <% [
@@ -57,13 +64,33 @@
     </div>
     <div class="rounded-xl bg-white border border-slate-200 p-5">
       <h2 class="font-semibold text-ink">Column names we look for</h2>
-      <p class="mt-3 text-slate-600">GSTIN, Invoice Number, Taxable Value are required. Supplier name, invoice date, IGST, CGST and SGST are picked up when present. Header rows can sit anywhere in the top 25 rows.</p>
+      <p class="mt-3 text-slate-600">GSTIN, Invoice Number and Taxable Value are required. Supplier name, invoice date, IGST, CGST and SGST are picked up when present. Raw exports from Tally, Zoho, SAP, Busy or Marg work as they are: we skip title banners, drop total rows and tidy ₹ signs, dates and invoice numbers. If we can't find a column, we'll ask you to pick it in one click.</p>
       <p class="mt-3 text-slate-600">Want to try it first?
         <a class="font-medium text-ink underline" href="/sample/purchase-register-sample.csv">Sample books</a> and
         <a class="font-medium text-ink underline" href="/sample/gstr2b-sample.csv">sample GSTR-2B</a>.</p>
     </div>
   </section>
 </main>
+
+<dialog id="map-dialog" aria-labelledby="map-title" class="m-auto w-[min(1040px,calc(100vw-1.5rem))] max-h-[92vh] rounded-2xl p-0 text-slate-800 shadow-2xl backdrop:bg-slate-900/60">
+  <form id="map-form" method="POST" action="/reconcile/map" class="flex max-h-[92vh] flex-col">
+    <input type="hidden" name="uploadId" id="map-upload-id">
+    <div class="border-b border-slate-200 px-6 py-4">
+      <h2 id="map-title" class="text-lg font-semibold text-ink">Help us read your file</h2>
+      <p class="mt-1 text-sm text-slate-600">We cleaned what we could, but couldn't confidently find every required column. Pick the right ones below. It takes a few seconds and you don't need to upload again.</p>
+      <p id="map-server-error" class="mt-3 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert"></p>
+    </div>
+    <div id="map-body" class="space-y-10 overflow-y-auto px-6 py-5"></div>
+    <div class="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-slate-50 px-6 py-4">
+      <p id="map-client-error" class="text-sm font-medium text-red-700" role="alert"></p>
+      <div class="ml-auto flex gap-3">
+        <button type="button" id="map-close" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-100">Close</button>
+        <button type="submit" class="rounded-lg bg-ink px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2">Continue with this mapping</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+<script type="application/json" id="mapping-data"><%- JSON.stringify(mappingRequest).replace(/</g, '\\u003c') %></script>
 
 <%- include('partials/footer') %>
 <script>
@@ -104,5 +131,155 @@
       document.getElementById('spinner').classList.remove('hidden');
       document.getElementById('submit-text').textContent = 'Reconciling…';
     });
+  })();
+</script>
+
+<script>
+  // Interactive column-mapping modal. Built from the JSON the server sends when auto-detection isn't confident.
+  (function () {
+    const data = JSON.parse(document.getElementById('mapping-data').textContent);
+    if (!data) return;
+
+    const dialog = document.getElementById('map-dialog');
+    const body = document.getElementById('map-body');
+    const form = document.getElementById('map-form');
+    const clientError = document.getElementById('map-client-error');
+    const CONFIDENT = 0.7;
+    const SELECT = 'w-full rounded-lg border bg-white px-2.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink/30';
+
+    const el = (tag, cls, text) => {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text !== undefined) n.textContent = text;
+      return n;
+    };
+    const colLetter = (i) => { let s = '', n = i; do { s = String.fromCharCode(65 + (n % 26)) + s; n = Math.floor(n / 26) - 1; } while (n >= 0); return s; };
+
+    document.getElementById('map-upload-id').value = data.uploadId;
+    if (data.error) {
+      const box = document.getElementById('map-server-error');
+      box.textContent = data.error;
+      box.classList.remove('hidden');
+    }
+
+    const buildSection = (req) => {
+      const side = req.side;
+      const rows = req.rawPreviewRows;
+      const width = Math.max(1, ...rows.map((r) => r.length));
+      const startRow = req.headerRowIndex < rows.length ? req.headerRowIndex : 0;
+      const selects = {};
+
+      const needs = req.fields.filter((f) => f.required && (!req.mapping[f.key] || req.mapping[f.key].confidence < CONFIDENT));
+      const wrap = el('section', 'space-y-4');
+      wrap.appendChild(el('h3', 'text-base font-semibold text-ink', req.label + ': ' + req.fileName));
+      wrap.appendChild(el('p', 'text-sm text-slate-600',
+        needs.length ? 'Please confirm: ' + needs.map((f) => f.label).join(', ') + '.' : 'Please confirm the columns below.'));
+
+      // Which row holds the column titles?
+      const headerLabel = el('label', 'block max-w-xl text-xs font-medium text-slate-500', 'Row with the column titles');
+      const headerSel = el('select', SELECT + ' mt-1 border-slate-300');
+      headerSel.name = side + '_headerRow';
+      rows.forEach((r, i) => {
+        const text = r.filter(Boolean).slice(0, 4).join(' | ') || '(empty row)';
+        headerSel.add(new Option('Row ' + (i + 1) + ': ' + text, String(i)));
+      });
+      headerSel.value = String(startRow);
+      headerLabel.appendChild(headerSel);
+      wrap.appendChild(headerLabel);
+
+      // One dropdown per field
+      const columnLabels = () => {
+        const titleRow = rows[Number(headerSel.value)] || [];
+        return Array.from({ length: width }, (_, i) => colLetter(i) + ': ' + (titleRow[i] || '(blank)'));
+      };
+      const fillOptions = (sel, required, keep) => {
+        sel.innerHTML = '';
+        sel.add(new Option(required ? '— choose a column —' : '— not in my file —', ''));
+        columnLabels().forEach((label, i) => sel.add(new Option(label, String(i))));
+        sel.value = keep === undefined || keep === null ? '' : String(keep);
+      };
+      const fieldBox = (f) => {
+        const m = req.mapping[f.key];
+        const weak = f.required && (!m || m.confidence < CONFIDENT);
+        const box = el('label', 'block text-xs font-medium text-slate-500');
+        box.appendChild(document.createTextNode(f.label + (f.required ? ' *' : '')));
+        const sel = el('select', SELECT + ' mt-1 ' + (weak ? 'border-red-400 bg-red-50' : 'border-slate-300'));
+        sel.name = side + '_col_' + f.key;
+        fillOptions(sel, f.required, m ? m.index : null);
+        selects[f.key] = sel;
+        box.appendChild(sel);
+        return box;
+      };
+
+      const requiredGrid = el('div', 'grid gap-4 sm:grid-cols-3');
+      req.fields.filter((f) => f.required).forEach((f) => requiredGrid.appendChild(fieldBox(f)));
+      wrap.appendChild(requiredGrid);
+
+      const more = el('details', 'rounded-lg border border-slate-200 px-4 py-3');
+      more.appendChild(el('summary', 'cursor-pointer text-sm font-medium text-slate-700', 'Optional columns (date, supplier name, taxes)'));
+      const optGrid = el('div', 'mt-3 grid gap-4 sm:grid-cols-3');
+      req.fields.filter((f) => !f.required).forEach((f) => optGrid.appendChild(fieldBox(f)));
+      more.appendChild(optGrid);
+      wrap.appendChild(more);
+
+      // Live preview: rows above the titles are dimmed, the title row is highlighted, chosen columns are tagged.
+      const previewBox = el('div', 'max-h-64 overflow-auto rounded-lg border border-slate-200');
+      const renderPreview = () => {
+        const tags = {};
+        req.fields.forEach((f) => { if (selects[f.key].value !== '') tags[selects[f.key].value] = f.label; });
+        const titleIdx = Number(headerSel.value);
+        previewBox.innerHTML = '';
+        const table = el('table', 'min-w-full text-xs');
+        const thead = el('thead', 'sticky top-0 bg-slate-100');
+        const tagRow = el('tr');
+        tagRow.appendChild(el('th', 'px-2 py-1 text-left font-medium text-slate-400', ''));
+        Array.from({ length: width }, (_, i) => i).forEach((i) => {
+          const th = el('th', 'whitespace-nowrap px-2 py-1 text-left font-semibold ' + (tags[i] ? 'bg-emerald-100 text-emerald-800' : 'text-slate-400'), tags[i] || colLetter(i));
+          tagRow.appendChild(th);
+        });
+        thead.appendChild(tagRow);
+        table.appendChild(thead);
+        const tbody = el('tbody', 'divide-y divide-slate-100');
+        rows.forEach((r, ri) => {
+          const tr = el('tr', ri === titleIdx ? 'bg-amber-100 font-semibold' : ri < titleIdx ? 'text-slate-300' : '');
+          tr.appendChild(el('td', 'px-2 py-1 text-slate-400', String(ri + 1)));
+          Array.from({ length: width }, (_, i) => i).forEach((i) => tr.appendChild(el('td', 'max-w-[14rem] truncate whitespace-nowrap px-2 py-1', r[i] || '')));
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        previewBox.appendChild(table);
+      };
+      wrap.appendChild(previewBox);
+
+      headerSel.addEventListener('change', () => {
+        req.fields.forEach((f) => fillOptions(selects[f.key], f.required, selects[f.key].value === '' ? null : selects[f.key].value));
+        renderPreview();
+      });
+      Object.values(selects).forEach((sel) => sel.addEventListener('change', renderPreview));
+      renderPreview();
+
+      wrap.validate = () => {
+        const chosen = req.fields.filter((f) => f.required).map((f) => selects[f.key].value);
+        if (chosen.some((v) => v === '')) return req.label + ': please choose GSTIN, Invoice Number and Taxable Value.';
+        if (new Set(chosen).size !== chosen.length) return req.label + ': GSTIN, Invoice Number and Taxable Value must be three different columns.';
+        return '';
+      };
+      return wrap;
+    };
+
+    const sections = data.files.map(buildSection);
+    sections.forEach((s) => body.appendChild(s));
+
+    form.addEventListener('submit', (ev) => {
+      const problem = sections.map((s) => s.validate()).find(Boolean);
+      clientError.textContent = problem || '';
+      if (problem) ev.preventDefault();
+    });
+
+    const open = () => (dialog.showModal ? dialog.showModal() : dialog.setAttribute('open', ''));
+    document.getElementById('map-close').addEventListener('click', () => dialog.close());
+    const reopen = document.getElementById('map-reopen');
+    if (reopen) reopen.addEventListener('click', open);
+    open();
   })();
 </script>

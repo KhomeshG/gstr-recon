@@ -17,7 +17,8 @@ const actual = {
   probable: r.mismatches.filter((m) => !m.reason.startsWith('Taxable')).length,
   value: r.mismatches.filter((m) => m.reason.startsWith('Taxable')).length,
   missingPortal: r.missingInPortal.length, missingBooks: r.missingInBooks.length,
-  skippedBooksRows: Number((out.warnings.join(' ').match(/skipped (\d+)/) || [])[1] || 0),
+  skippedBooksRows: out.inputs.skippedRows.filter((x) => x.source === 'books').length,
+  footerRowsRemoved: out.cleaning[0].stats.removedRows,
   itcAtRisk: s.itcAtRisk,
 };
 let bad = 0;

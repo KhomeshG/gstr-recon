@@ -200,7 +200,8 @@ const expected = {
   value: count('VALUE_MISMATCH'),
   missingPortal: count('MISSING_PORTAL'),
   missingBooks: count('MISSING_BOOKS'),
-  skippedBooksRows: 3,
+  skippedBooksRows: 2,
+  footerRowsRemoved: 1,
   itcAtRisk: r2(
     entries.filter((e) => e.exp === 'MISSING_PORTAL').reduce((t, e) => t + taxTotal(e.books), 0) +
     entries.filter((e) => ['PROBABLE', 'VALUE_MISMATCH'].includes(e.exp)).reduce((t, e) => t + Math.max(0, taxTotal(e.books) - taxTotal(e.portal)), 0)
@@ -217,6 +218,7 @@ const sumWs = XLSX.utils.aoa_to_sheet([
   ['Missing in GSTR-2B (red)', expected.missingPortal],
   ['Missing in Books (blue)', expected.missingBooks],
   ['Skipped junk rows in books (warning banner)', expected.skippedBooksRows],
+  ['Footer rows auto-removed ("Grand Total" line)', expected.footerRowsRemoved],
   ['ITC at risk (₹)', expected.itcAtRisk],
   [],
   ['* T19 is a known limitation: matching uses taxable value, so a tax-only difference stays green.'],

@@ -7,6 +7,7 @@ const { processUpload, buildOutcome, reprocessRow, periodLabel } = require('./ut
 const { buildExportBuffer, buildNonCompliantBuffer } = require('./utils/exporter');
 const { createStore } = require('./utils/store');
 const { createLedgerFile } = require('./utils/ledger');
+const { buildOverrides } = require('./utils/normalizer');
 const samples = require('./utils/sample');
 
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ const ALLOWED_EXT = ['.xlsx', '.xls', '.csv'];
 const MAX_MB = 15;
 
 const store = createStore();
+const pendingUploads = createStore(30 * 60 * 1000); // raw files parked while the user maps columns
 const ledgerFile = createLedgerFile();
 const app = express();
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -27,6 +29,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.locals.inr = (n) =>
   Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 app.locals.periodLabel = periodLabel;
+app.locals.mappingRequest = null; // set only when the column-mapping modal must open
 
 /* ── Upload handling ───────────────────────────────────────────── */
 const upload = multer({
@@ -68,27 +71,77 @@ const persistOutcome = ({ ledger, ...session }) => {
 const expired = (res) =>
   res.status(404).render('index', { error: 'That report has expired. Please upload your files again.' });
 
-app.post('/reconcile', withUpload, (req, res) => {
-  const problem = missingFilesMessage(req.files);
-  if (problem) return res.status(400).render('index', { error: problem });
+/** Browsers get HTML pages; fetch()/API clients (Accept: application/json) get JSON. */
+const wantsJson = (req) => req.accepts(['html', 'json']) === 'json';
 
+const fail = (req, res, status, message) =>
+  wantsJson(req) ? res.status(status).json({ ok: false, error: message }) : res.status(status).render('index', { error: message });
+
+/**
+ * Run the pipeline for one upload. Three outcomes:
+ *   - reconciled                → redirect to /results/:id
+ *   - columns can't be mapped   → { needsManualMapping, detectedHeaders, rawPreviewRows, … } (JSON) or the modal (HTML)
+ *   - unreadable / empty file   → error message
+ */
+const reconcileAndRespond = (req, res, ctx, mappingError = null) => {
   try {
-    const outcome = processUpload(req.files.books[0], req.files.portal[0], {
-      period: req.body?.period,
+    const outcome = processUpload(ctx.booksFile, ctx.portalFile, {
+      period: ctx.period,
       ledger: ledgerFile.load(),
+      overrides: ctx.overrides,
     });
-    if (!outcome.ok) return res.status(422).render('index', { error: outcome.error });
+
+    if (outcome.needsManualMapping) {
+      const uploadId = ctx.uploadId || pendingUploads.save({ booksFile: ctx.booksFile, portalFile: ctx.portalFile, period: ctx.period, overrides: {} });
+      const payload = {
+        needsManualMapping: true,
+        uploadId,
+        detectedHeaders: outcome.detectedHeaders,
+        rawPreviewRows: outcome.rawPreviewRows,
+        files: outcome.requests,
+        error: mappingError,
+      };
+      return wantsJson(req) ? res.json(payload) : res.render('index', { error: null, mappingRequest: payload });
+    }
+    if (!outcome.ok) return fail(req, res, 422, outcome.error);
 
     const session = persistOutcome(outcome);
-    const id = store.save({
-      ...session,
-      files: { books: req.files.books[0].originalname, portal: req.files.portal[0].originalname },
-    });
-    return res.redirect(303, `/results/${id}`); // PRG: refresh/back never re-submits the upload
+    const id = store.save({ ...session, files: { books: ctx.booksFile.originalname, portal: ctx.portalFile.originalname } });
+    if (ctx.uploadId) pendingUploads.delete(ctx.uploadId);
+    return wantsJson(req) ? res.json({ ok: true, redirect: `/results/${id}` }) : res.redirect(303, `/results/${id}`); // PRG
   } catch (e) {
     console.error(e);
-    return res.status(500).render('index', { error: 'Something went wrong while reconciling. Please check your files and try again.' });
+    return fail(req, res, 500, 'Something went wrong while reconciling. Please check your files and try again.');
   }
+};
+
+app.post('/reconcile', withUpload, (req, res) => {
+  const problem = missingFilesMessage(req.files);
+  if (problem) return fail(req, res, 400, problem);
+  const keep = (f) => ({ buffer: f.buffer, originalname: f.originalname });
+  return reconcileAndRespond(req, res, {
+    booksFile: keep(req.files.books[0]),
+    portalFile: keep(req.files.portal[0]),
+    period: req.body?.period,
+    overrides: {},
+  });
+});
+
+/** Second step of the fallback: the user picked the columns in the modal. No re-upload needed. */
+app.post('/reconcile/map', (req, res) => {
+  const uploadId = String(req.body?.uploadId ?? '');
+  const pending = pendingUploads.get(uploadId);
+  if (!pending) return fail(req, res, 404, 'Your upload expired. Please choose the files again.');
+
+  const parsed = ['books', 'portal'].map((side) => [side, buildOverrides(req.body, side)]).filter(([, o]) => o.present);
+  const invalid = parsed.find(([, o]) => o.error);
+  const accepted = Object.fromEntries(
+    parsed.filter(([, o]) => !o.error).map(([side, o]) => [side, { headerRowIndex: o.headerRowIndex, columns: o.columns }])
+  );
+  const overrides = { ...pending.overrides, ...accepted };
+  pendingUploads.set(uploadId, { ...pending, overrides }); // keep good choices if the other file still needs work
+
+  return reconcileAndRespond(req, res, { ...pending, overrides, uploadId }, invalid ? invalid[1].error : null);
 });
 
 app.get('/results/:id', (req, res) => {
