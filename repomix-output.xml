@@ -1,0 +1,2513 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+data/
+  unreconciled_ledger.json
+test-data/
+  files/
+    Answer_Key_Expected_Results.xlsx
+    expected.json
+    GSTR2B_Official_Format_Sep2026.xlsx
+    Purchase_Register_Tally_Style_Sep2026.xlsx
+  generate.js
+  verify.js
+utils/
+  exporter.js
+  ledger.js
+  reconcile.js
+  sample.js
+  store.js
+views/
+  partials/
+    footer.ejs
+    head.ejs
+    header.ejs
+    table.ejs
+  index.ejs
+  ledger.ejs
+  results.ejs
+package.json
+server.js
+structure.txt
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="data/unreconciled_ledger.json">
+{
+  "pending": [
+    {
+      "id": "2026-10|07AAKCC7788J1Z6|CS501",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "07AAKCC7788J1Z6",
+      "invoice": "CS501",
+      "invoiceRaw": "CS/501",
+      "name": "Capital Stationers",
+      "date": "12-09-2026",
+      "taxable": 12000,
+      "igst": 2160,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 2160,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|24AALCG9900K1Z0|GC88",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "24AALCG9900K1Z0",
+      "invoice": "GC88",
+      "invoiceRaw": "GC/88",
+      "name": "Ganga Chemicals",
+      "date": "17-09-2026",
+      "taxable": 5000,
+      "igst": 900,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 900,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|27AAHCK1122F1Z9|KA777",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "27AAHCK1122F1Z9",
+      "invoice": "KA777",
+      "invoiceRaw": "KA/777",
+      "name": "Kisan Agro Supplies",
+      "date": "23-09-2026",
+      "taxable": 22000,
+      "igst": 0,
+      "cgst": 1980,
+      "sgst": 1980,
+      "tax": 3960,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|29AAJCB5566H1Z1|BE90",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "29AAJCB5566H1Z1",
+      "invoice": "BE90",
+      "invoiceRaw": "BE-90",
+      "name": "Bharat Electricals",
+      "date": "24-09-2026",
+      "taxable": 14000,
+      "igst": 2520,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 2520,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|07AAKCC7788J1Z6|CN12",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "07AAKCC7788J1Z6",
+      "invoice": "CN12",
+      "invoiceRaw": "CN/12",
+      "name": "Capital Stationers",
+      "date": "25-09-2026",
+      "taxable": -2500,
+      "igst": -450,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": -450,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|27AABCS1234A1Z5|INV002",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "27AABCS1234A1Z5",
+      "invoice": "INV002",
+      "invoiceRaw": "INV/002",
+      "name": "Shree Traders",
+      "date": "05-09-2026",
+      "taxable": 500,
+      "igst": 0,
+      "cgst": 45,
+      "sgst": 45,
+      "tax": 90,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|27AABCS1234A1Z5|K1",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "27AABCS1234A1Z5",
+      "invoice": "K1",
+      "invoiceRaw": "K-1",
+      "name": "Local Kirana (unregistered)",
+      "date": "12-09-2026",
+      "taxable": 1200,
+      "igst": 0,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 0,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-10|27AABCS1234A1Z5|KK2",
+      "period": "2026-10",
+      "periodLabel": "Oct-2026",
+      "gstin": "27AABCS1234A1Z5",
+      "invoice": "KK2",
+      "invoiceRaw": "KK2",
+      "name": "Grand Total",
+      "date": "",
+      "taxable": 999999,
+      "igst": 1,
+      "cgst": 1,
+      "sgst": 1,
+      "tax": 3,
+      "savedAt": "2026-10-14T11:38:34.840Z"
+    },
+    {
+      "id": "2026-09|07AAKCC7788J1Z6|CS501",
+      "period": "2026-09",
+      "periodLabel": "Sep-2026",
+      "gstin": "07AAKCC7788J1Z6",
+      "invoice": "CS501",
+      "invoiceRaw": "CS/501",
+      "name": "Capital Stationers",
+      "date": "12-09-2026",
+      "taxable": 12000,
+      "igst": 2160,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 2160,
+      "savedAt": "2026-10-14T11:45:07.394Z"
+    },
+    {
+      "id": "2026-09|24AALCG9900K1Z0|GC88",
+      "period": "2026-09",
+      "periodLabel": "Sep-2026",
+      "gstin": "24AALCG9900K1Z0",
+      "invoice": "GC88",
+      "invoiceRaw": "GC/88",
+      "name": "Ganga Chemicals",
+      "date": "17-09-2026",
+      "taxable": 5000,
+      "igst": 900,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 900,
+      "savedAt": "2026-10-14T11:45:07.394Z"
+    },
+    {
+      "id": "2026-09|27AAHCK1122F1Z9|KA777",
+      "period": "2026-09",
+      "periodLabel": "Sep-2026",
+      "gstin": "27AAHCK1122F1Z9",
+      "invoice": "KA777",
+      "invoiceRaw": "KA/777",
+      "name": "Kisan Agro Supplies",
+      "date": "23-09-2026",
+      "taxable": 22000,
+      "igst": 0,
+      "cgst": 1980,
+      "sgst": 1980,
+      "tax": 3960,
+      "savedAt": "2026-10-14T11:45:07.394Z"
+    },
+    {
+      "id": "2026-09|29AAJCB5566H1Z1|BE90",
+      "period": "2026-09",
+      "periodLabel": "Sep-2026",
+      "gstin": "29AAJCB5566H1Z1",
+      "invoice": "BE90",
+      "invoiceRaw": "BE-90",
+      "name": "Bharat Electricals",
+      "date": "24-09-2026",
+      "taxable": 14000,
+      "igst": 2520,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": 2520,
+      "savedAt": "2026-10-14T11:45:07.394Z"
+    },
+    {
+      "id": "2026-09|07AAKCC7788J1Z6|CN12",
+      "period": "2026-09",
+      "periodLabel": "Sep-2026",
+      "gstin": "07AAKCC7788J1Z6",
+      "invoice": "CN12",
+      "invoiceRaw": "CN/12",
+      "name": "Capital Stationers",
+      "date": "25-09-2026",
+      "taxable": -2500,
+      "igst": -450,
+      "cgst": 0,
+      "sgst": 0,
+      "tax": -450,
+      "savedAt": "2026-10-14T11:45:07.394Z"
+    }
+  ],
+  "claimed": []
+}
+</file>
+
+<file path="test-data/files/expected.json">
+{
+  "expected": {
+    "booksUsable": 25,
+    "portalUsable": 25,
+    "exact": 12,
+    "probable": 6,
+    "value": 2,
+    "missingPortal": 5,
+    "missingBooks": 5,
+    "skippedBooksRows": 3,
+    "itcAtRisk": 9270.1
+  },
+  "entries": [
+    {
+      "id": "T01",
+      "exp": "EXACT",
+      "b": "INV/2026/001",
+      "p": "INV/2026/001"
+    },
+    {
+      "id": "T02",
+      "exp": "EXACT",
+      "b": "inv-2026-002",
+      "p": "INV/2026/002"
+    },
+    {
+      "id": "T03",
+      "exp": "EXACT",
+      "b": "ns 1042",
+      "p": "NS-1042"
+    },
+    {
+      "id": "T04",
+      "exp": "EXACT",
+      "b": "1045",
+      "p": "1045"
+    },
+    {
+      "id": "T05",
+      "exp": "EXACT",
+      "b": "VH/2026/0210",
+      "p": "VH/2026/0210"
+    },
+    {
+      "id": "T06",
+      "exp": "EXACT",
+      "b": "MP-5521",
+      "p": "MP-5521"
+    },
+    {
+      "id": "T07a",
+      "exp": "EXACT",
+      "b": "KA/331",
+      "p": "KA/331"
+    },
+    {
+      "id": "T07b",
+      "exp": "EXACT",
+      "b": "KA/332",
+      "p": "KA/332"
+    },
+    {
+      "id": "T08",
+      "exp": "EXACT",
+      "b": "SL/00908",
+      "p": "SL/00908"
+    },
+    {
+      "id": "T09",
+      "exp": "EXACT",
+      "b": "BE-77",
+      "p": "BE-77"
+    },
+    {
+      "id": "T10a",
+      "exp": "EXACT",
+      "b": "CS/501",
+      "p": "CS/501"
+    },
+    {
+      "id": "T10b",
+      "exp": "MISSING_PORTAL",
+      "b": "CS/501"
+    },
+    {
+      "id": "T11",
+      "exp": "PROBABLE",
+      "b": "INV2026O12",
+      "p": "INV2026012"
+    },
+    {
+      "id": "T12",
+      "exp": "PROBABLE",
+      "b": "0045",
+      "p": "45"
+    },
+    {
+      "id": "T13",
+      "exp": "PROBABLE",
+      "b": "BILL-2209",
+      "p": "BILL-209"
+    },
+    {
+      "id": "T14",
+      "exp": "PROBABLE",
+      "b": "VH/2026/0300",
+      "p": "VH-2026-0301"
+    },
+    {
+      "id": "T15a",
+      "exp": "MISSING_PORTAL",
+      "b": "GC/88"
+    },
+    {
+      "id": "T15b",
+      "exp": "MISSING_BOOKS",
+      "p": "GC/89"
+    },
+    {
+      "id": "T16a",
+      "exp": "PROBABLE",
+      "b": "KA/410",
+      "p": "KA/41O"
+    },
+    {
+      "id": "T16b",
+      "exp": "PROBABLE",
+      "b": "KA/490",
+      "p": "KA/49O"
+    },
+    {
+      "id": "T17",
+      "exp": "VALUE_MISMATCH",
+      "b": "NS/2088",
+      "p": "NS/2088"
+    },
+    {
+      "id": "T18",
+      "exp": "VALUE_MISMATCH",
+      "b": "SL/1200",
+      "p": "SL/1200"
+    },
+    {
+      "id": "T19",
+      "exp": "EXACT*",
+      "b": "BE-120",
+      "p": "BE-120"
+    },
+    {
+      "id": "T20",
+      "exp": "MISSING_PORTAL",
+      "b": "KA/777"
+    },
+    {
+      "id": "T21a",
+      "exp": "MISSING_PORTAL",
+      "b": "BE-90"
+    },
+    {
+      "id": "T21b",
+      "exp": "MISSING_BOOKS",
+      "p": "BE-90"
+    },
+    {
+      "id": "T22",
+      "exp": "MISSING_PORTAL",
+      "b": "CN/12"
+    },
+    {
+      "id": "T23",
+      "exp": "MISSING_BOOKS",
+      "p": "GC/120"
+    },
+    {
+      "id": "T24",
+      "exp": "MISSING_BOOKS",
+      "p": "SL/908"
+    },
+    {
+      "id": "T25",
+      "exp": "MISSING_BOOKS",
+      "p": "OCP/9001"
+    }
+  ]
+}
+</file>
+
+<file path="test-data/generate.js">
+'use strict';
+/**
+ * Generates a hard GSTR-2B reconciliation test pack:
+ *  1. GSTR2B_Official_Format_Sep2026.xlsx       (portal layout: Read me + B2B with 2-row merged header)
+ *  2. Purchase_Register_Tally_Style_Sep2026.xlsx (preamble rows, messy cells, junk rows, total row)
+ *  3. Answer_Key_Expected_Results.xlsx           (what each invoice SHOULD land in)
+ * Run: node test-data/generate.js
+ */
+const fs = require('fs');
+const path = require('path');
+const XLSX = require('xlsx-js-style');
+
+const OUT = path.join(__dirname, 'files');
+fs.mkdirSync(OUT, { recursive: true });
+
+const r2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+const SUP = {
+  s1: ['Shree Traders', '27AABCS1234A1Z5'],
+  s2: ['Nagpur Steel Co', '27AAACN5678B1Z2'],
+  s3: ['Orange City Papers', '27AAECO9012C1Z8'],
+  s4: ['Vidarbha Hardware', '27AAFCV3456D1Z1'],
+  s5: ['Metro Packaging', '24AAGCM7890E1Z4'],
+  s6: ['Kisan Agro Supplies', '27AAHCK1122F1Z9'],
+  s7: ['Sai Logistics', '27AAICS3344G1Z3'],
+  s8: ['Bharat Electricals', '29AAJCB5566H1Z7'],
+  s9: ['Capital Stationers', '07AAKCC7788J1Z6'],
+  s10: ['Ganga Chemicals', '24AALCG9900K1Z0'],
+};
+const INTER = new Set(['s5', 's8', 's9', 's10']);
+
+const taxOf = (taxable, rate, inter) => {
+  const t = r2((taxable * rate) / 100);
+  return inter ? { igst: t, cgst: 0, sgst: 0 } : { igst: 0, cgst: r2(t / 2), sgst: r2(t / 2) };
+};
+
+/* side = one invoice row as it appears in a file */
+const side = (sup, base, ov = {}) => {
+  const m = { ...base, ...ov };
+  const [name, gstin] = SUP[sup];
+  const tax = m.tax || taxOf(m.taxable, m.rate ?? 18, INTER.has(sup));
+  return { name, gstin: m.gstin ?? gstin, inv: m.inv, taxable: m.taxable, taxableCell: m.taxableCell, tax, rate: m.rate ?? 18, sup };
+};
+
+const entries = [];
+const pair = (id, exp, tests, sup, base, bOv, pOv) =>
+  entries.push({ id, exp, tests, books: side(sup, base, bOv), portal: side(sup, base, pOv) });
+const booksOnly = (id, exp, tests, sup, base, bOv) =>
+  entries.push({ id, exp, tests, books: side(sup, base, bOv) });
+const portalOnly = (id, exp, tests, sup, base, pOv) =>
+  entries.push({ id, exp, tests, portal: side(sup, base, pOv) });
+
+/* ─────────────── The test cases ─────────────── */
+pair('T01', 'EXACT', 'Plain identical invoice', 's1', { inv: 'INV/2026/001', taxable: 10000 });
+pair('T02', 'EXACT', 'Invoice no. punctuation/case differs (inv-2026-002 vs INV/2026/002)', 's1', { inv: 'INV/2026/002', taxable: 25000 }, { inv: 'inv-2026-002' });
+pair('T03', 'EXACT', 'GSTIN lower-case with stray spaces + invoice spacing', 's2', { inv: 'NS-1042', taxable: 50000 }, { gstin: ' 27 aaacn5678b1z2 ', inv: 'ns 1042' });
+pair('T04', 'EXACT', 'Invoice no. stored as a NUMBER in books, TEXT on portal', 's3', { inv: '1045', taxable: 7500.5 }, { inv: 1045 });
+pair('T05', 'EXACT', 'Books amount typed as text "₹ 1,25,000.00" (Indian comma style)', 's4', { inv: 'VH/2026/0210', taxable: 125000 }, { taxableCell: '₹ 1,25,000.00' });
+pair('T06', 'EXACT', 'Floating-point noise 15000.004 vs 15000.00 (rounds to 2 dp), IGST', 's5', { inv: 'MP-5521', taxable: 15000 }, { taxable: 15000.004 });
+pair('T07a', 'EXACT', 'Same supplier, identical amounts, different invoices (no cross-pairing)', 's6', { inv: 'KA/331', taxable: 4200 });
+pair('T07b', 'EXACT', 'Same supplier, identical amounts, different invoices (no cross-pairing)', 's6', { inv: 'KA/332', taxable: 4200 });
+pair('T08', 'EXACT', 'Leading zeros kept in invoice no. (SL/00908)', 's7', { inv: 'SL/00908', taxable: 8800 });
+pair('T09', 'EXACT', '5% GST rate, small paise value, IGST', 's8', { inv: 'BE-77', taxable: 880.75, rate: 5 });
+pair('T10a', 'EXACT', 'DUPLICATE in books: first copy should match the single portal invoice', 's9', { inv: 'CS/501', taxable: 12000 });
+booksOnly('T10b', 'MISSING_PORTAL', 'DUPLICATE in books: second copy must NOT match again', 's9', { inv: 'CS/501', taxable: 12000 });
+pair('T11', 'PROBABLE', 'Typo: letter O instead of zero (INV2026O12 vs INV2026012)', 's1', { inv: 'INV2026012', taxable: 18000 }, { inv: 'INV2026O12' });
+pair('T12', 'PROBABLE', 'Leading zeros (0045 vs 45) and value differs by ₹3', 's3', { inv: '45', taxable: 9003 }, { inv: '0045', taxable: 9000 });
+pair('T13', 'PROBABLE', 'Missing digit (BILL-2209 vs BILL-209)', 's2', { inv: 'BILL-209', taxable: 33000 }, { inv: 'BILL-2209' });
+pair('T14', 'PROBABLE', 'Boundary: value differs by EXACTLY ₹10.00 and invoice differs', 's4', { inv: 'VH-2026-0301', taxable: 40010 }, { inv: 'VH/2026/0300', taxable: 40000 });
+booksOnly('T15a', 'MISSING_PORTAL', 'Boundary: differs by ₹10.01 → must NOT be treated as probable', 's10', { inv: 'GC/88', taxable: 5000 });
+portalOnly('T15b', 'MISSING_BOOKS', 'Boundary: differs by ₹10.01 → must NOT be treated as probable', 's10', { inv: 'GC/89', taxable: 5010.01 });
+pair('T16a', 'PROBABLE', 'Two look-alike typos same supplier & amount: each pairs with the closest', 's6', { inv: 'KA/41O', taxable: 6000 }, { inv: 'KA/410' });
+pair('T16b', 'PROBABLE', 'Two look-alike typos same supplier & amount: each pairs with the closest', 's6', { inv: 'KA/49O', taxable: 6000 }, { inv: 'KA/490' });
+pair('T17', 'VALUE_MISMATCH', 'Same GSTIN + invoice, taxable differs by ₹1,000', 's2', { inv: 'NS/2088', taxable: 59000 }, { taxable: 60000 });
+pair('T18', 'VALUE_MISMATCH', 'Same GSTIN + invoice, taxable differs by only ₹0.50', 's7', { inv: 'SL/1200', taxable: 10000 }, { taxable: 10000.5 });
+pair('T19', 'EXACT*', 'Taxable matches but TAX differs by ₹180 (engine matches on taxable only)', 's8', { inv: 'BE-120', taxable: 20000 }, { tax: { igst: 3780, cgst: 0, sgst: 0 } }, { tax: { igst: 3600, cgst: 0, sgst: 0 } });
+booksOnly('T20', 'MISSING_PORTAL', 'Supplier has not filed GSTR-1 (unclaimed ITC)', 's6', { inv: 'KA/777', taxable: 22000 });
+booksOnly('T21a', 'MISSING_PORTAL', 'GSTIN typed wrong in books (last char Z1 instead of Z7)', 's8', { inv: 'BE-90', taxable: 14000 }, { gstin: '29AAJCB5566H1Z1' });
+portalOnly('T21b', 'MISSING_BOOKS', 'Same invoice on portal under the correct GSTIN', 's8', { inv: 'BE-90', taxable: 14000 });
+booksOnly('T22', 'MISSING_PORTAL', 'Negative amount (credit note booked as minus)', 's9', { inv: 'CN/12', taxable: -2500 });
+portalOnly('T23', 'MISSING_BOOKS', 'Large invoice on portal, never booked', 's10', { inv: 'GC/120', taxable: 70000 });
+portalOnly('T24', 'MISSING_BOOKS', 'Portal invoice never booked (note SL/908 vs booked SL/00908)', 's7', { inv: 'SL/908', taxable: 8800 });
+portalOnly('T25', 'MISSING_BOOKS', 'Tiny ₹100 invoice on portal only', 's3', { inv: 'OCP/9001', taxable: 100 });
+
+/* ─────────────── Cell helpers ─────────────── */
+const num = (v) => ({ v, t: 'n', z: '#,##0.00' });
+const str = (v) => ({ v: String(v), t: 's' });
+const serial = (d, m, y) => Math.round((Date.UTC(y, m - 1, d) - Date.UTC(1899, 11, 30)) / 86400000);
+const bold = (v, fill = 'D9E1F2') => ({ v, t: 's', s: { font: { bold: true }, fill: { fgColor: { rgb: fill } } } });
+const dayOf = (i) => (i % 28) + 1;
+const widths = (n, w = 18) => Array.from({ length: n }, () => ({ wch: w }));
+
+/* ─────────────── 1. Purchase register (Tally style) ─────────────── */
+const bookEntries = entries.filter((e) => e.books).map((e, i) => ({ ...e, day: dayOf(i) }));
+const booksAoa = [
+  [bold('ABC Enterprises Pvt Ltd, Nagpur', 'FFFFFF')],
+  [bold('Purchase Register', 'FFFFFF')],
+  [str('1-Sep-2026 to 30-Sep-2026')],
+  [],
+  ['Date', 'Voucher No.', 'Supplier Invoice No.', 'Party Name', 'GSTIN/UIN', 'Taxable Value', 'IGST', 'CGST', 'SGST', 'Gross Total'].map((h) => bold(h)),
+];
+const bookRow = (e, n) => {
+  const b = e.books;
+  const taxableNum = typeof b.taxable === 'number' ? b.taxable : 0;
+  return [
+    str(`${String(e.day).padStart(2, '0')}-09-2026`),
+    str(`PV/${String(n + 1).padStart(4, '0')}`),
+    typeof b.inv === 'number' ? { v: b.inv, t: 'n' } : str(b.inv),
+    str(b.name),
+    str(b.gstin),
+    b.taxableCell ? str(b.taxableCell) : num(b.taxable),
+    num(b.tax.igst), num(b.tax.cgst), num(b.tax.sgst),
+    num(r2(taxableNum + b.tax.igst + b.tax.cgst + b.tax.sgst)),
+  ];
+};
+bookEntries.forEach((e, n) => {
+  booksAoa.push(bookRow(e, n));
+  if (n === 4) booksAoa.push([]); // blank row mid-data
+  if (n === 9) booksAoa.push([str('05-09-2026'), str('PV/JUNK1'), str(''), str('Shree Traders'), str('27AABCS1234A1Z5'), num(500), num(0), num(45), num(45), num(590)]); // missing invoice no.
+  if (n === 15) booksAoa.push([str('12-09-2026'), str('PV/JUNK2'), str('K-1'), str('Local Kirana (unregistered)'), str(''), num(1200), num(0), num(0), num(0), num(1200)]); // no GSTIN
+});
+booksAoa.push([str(''), str(''), str(''), bold('Grand Total', 'FFFFFF'), str(''), num(999999), num(1), num(1), num(1), num(1000002)]); // total row
+const booksWs = XLSX.utils.aoa_to_sheet(booksAoa);
+booksWs['!cols'] = widths(10);
+const booksWb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(booksWb, booksWs, 'Purchase Register');
+XLSX.writeFile(booksWb, path.join(OUT, 'Purchase_Register_Tally_Style_Sep2026.xlsx'));
+
+/* ─────────────── 2. Official-format GSTR-2B ─────────────── */
+const portalEntries = entries
+  .filter((e) => e.portal)
+  .map((e, i) => ({ ...e, day: dayOf(i * 3) }))
+  .sort((a, b) => a.portal.gstin.localeCompare(b.portal.gstin) || String(a.portal.inv).localeCompare(String(b.portal.inv)));
+
+const readMe = [
+  ['Goods and Services Tax - GSTR-2B'],
+  [],
+  ['GSTIN', '27ABCDE1234F1Z5'],
+  ['Legal name of the registered person', 'ABC Enterprises Pvt Ltd'],
+  ['Trade name, if any', 'ABC Enterprises'],
+  ['Date of generation', '14/10/2026'],
+  ['Return period', 'September 2026'],
+  [],
+  ['Read me: this is an auto-drafted ITC statement. Sheets: ITC Summary, B2B, B2B-CDNR.'],
+].map((r) => r.map((c) => (c === '' ? c : str(c))));
+
+const h1 = ['GSTIN of supplier', 'Trade/Legal name', 'Invoice details', '', '', '', '', 'Supply Attract Reverse Charge', 'Rate(%)', 'Taxable Value (₹)', 'Tax Amount', '', '', '', 'GSTR-1/IFF/GSTR-5 Period', 'GSTR-1/IFF/GSTR-5 Filing Date', 'ITC Availability'];
+const h2 = ['', '', 'Invoice number', 'Invoice type', 'Invoice Date', 'Invoice Value(₹)', 'Place of supply', '', '', '', 'Integrated Tax(₹)', 'Central Tax(₹)', 'State/UT Tax(₹)', 'Cess(₹)', '', '', ''];
+const b2b = [h1.map((c) => bold(c, 'BDD7EE')), h2.map((c) => bold(c, 'BDD7EE'))];
+portalEntries.forEach((e, n) => {
+  const p = e.portal;
+  b2b.push([
+    str(p.gstin), str(p.name),
+    typeof p.inv === 'number' ? { v: p.inv, t: 'n' } : str(p.inv),
+    str('Regular'),
+    { v: serial(e.day, 9, 2026), t: 'n', z: 'dd-mm-yyyy' },
+    num(r2(p.taxable + p.tax.igst + p.tax.cgst + p.tax.sgst)),
+    str(p.gstin.startsWith('27') ? '27-Maharashtra' : '27-Maharashtra'),
+    str('No'), { v: p.rate, t: 'n' }, num(p.taxable),
+    num(p.tax.igst), num(p.tax.cgst), num(p.tax.sgst), num(0),
+    str('Sep-2026'), str('11-10-2026'), str('Yes'),
+  ]);
+  if (n === 7) b2b.push([]); // stray blank row
+});
+const b2bWs = XLSX.utils.aoa_to_sheet(b2b);
+b2bWs['!merges'] = [{ s: { r: 0, c: 2 }, e: { r: 0, c: 6 } }, { s: { r: 0, c: 10 }, e: { r: 0, c: 13 } }];
+b2bWs['!cols'] = widths(17, 20);
+
+const cdnr = XLSX.utils.aoa_to_sheet([
+  ['GSTIN of supplier', 'Trade/Legal name', 'Note number', 'Note type', 'Note date', 'Taxable Value (₹)'].map((c) => bold(c)),
+  [str('27AABCS1234A1Z5'), str('Shree Traders'), str('CN-1'), str('Credit note'), str('20-09-2026'), num(1000)],
+]);
+const summaryWs = XLSX.utils.aoa_to_sheet([[str('ITC Summary (auto-drafted)')], [str('Part A - ITC Available'), str('IGST'), str('CGST'), str('SGST')], [str('Other documents'), num(0), num(0), num(0)]]);
+
+const portalWb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(portalWb, XLSX.utils.aoa_to_sheet(readMe), 'Read me');
+XLSX.utils.book_append_sheet(portalWb, summaryWs, 'ITC Summary');
+XLSX.utils.book_append_sheet(portalWb, b2bWs, 'B2B');
+XLSX.utils.book_append_sheet(portalWb, cdnr, 'B2B-CDNR');
+XLSX.writeFile(portalWb, path.join(OUT, 'GSTR2B_Official_Format_Sep2026.xlsx'));
+
+/* ─────────────── 3. Answer key ─────────────── */
+const FILL = { EXACT: 'E3F4E5', 'EXACT*': 'E3F4E5', PROBABLE: 'FFF6D6', VALUE_MISMATCH: 'FFF6D6', MISSING_PORTAL: 'FDE3E3', MISSING_BOOKS: 'E1EEFC' };
+const taxTotal = (s) => r2(s.tax.igst + s.tax.cgst + s.tax.sgst);
+const keyRows = entries.map((e) => {
+  const cell = (v, t) => ({ v: v ?? '', t: t || (typeof v === 'number' ? 'n' : 's'), s: { fill: { fgColor: { rgb: FILL[e.exp] } } } });
+  return [cell(e.id), cell(e.exp), cell(e.tests), cell(e.books ? String(e.books.inv) : '—'), cell(e.portal ? String(e.portal.inv) : '—'), cell(e.books ? e.books.taxable : ''), cell(e.portal ? e.portal.taxable : '')];
+});
+const keyWs = XLSX.utils.aoa_to_sheet([
+  ['Test ID', 'Expected bucket', 'What it tests', 'Invoice in books', 'Invoice on portal', 'Books taxable', 'Portal taxable'].map((h) => bold(h)),
+  ...keyRows,
+]);
+keyWs['!cols'] = [{ wch: 8 }, { wch: 18 }, { wch: 78 }, { wch: 18 }, { wch: 18 }, { wch: 14 }, { wch: 14 }];
+
+const count = (k) => entries.filter((e) => e.exp === k).length;
+const expected = {
+  booksUsable: entries.filter((e) => e.books).length,
+  portalUsable: entries.filter((e) => e.portal).length,
+  exact: count('EXACT') + count('EXACT*'),
+  probable: count('PROBABLE'),
+  value: count('VALUE_MISMATCH'),
+  missingPortal: count('MISSING_PORTAL'),
+  missingBooks: count('MISSING_BOOKS'),
+  skippedBooksRows: 3,
+  itcAtRisk: r2(
+    entries.filter((e) => e.exp === 'MISSING_PORTAL').reduce((t, e) => t + taxTotal(e.books), 0) +
+    entries.filter((e) => ['PROBABLE', 'VALUE_MISMATCH'].includes(e.exp)).reduce((t, e) => t + Math.max(0, taxTotal(e.books) - taxTotal(e.portal)), 0)
+  ),
+};
+const sumWs = XLSX.utils.aoa_to_sheet([
+  ['Expected totals when both files are uploaded', 'Value'].map((h) => bold(h)),
+  ['Purchase register invoices (usable rows)', expected.booksUsable],
+  ['GSTR-2B invoices', expected.portalUsable],
+  ['Exact matches (green)', expected.exact],
+  ['Probable / typo matches (yellow)', expected.probable],
+  ['Value mismatches (yellow)', expected.value],
+  ['Mismatches tab total', expected.probable + expected.value],
+  ['Missing in GSTR-2B (red)', expected.missingPortal],
+  ['Missing in Books (blue)', expected.missingBooks],
+  ['Skipped junk rows in books (warning banner)', expected.skippedBooksRows],
+  ['ITC at risk (₹)', expected.itcAtRisk],
+  [],
+  ['* T19 is a known limitation: matching uses taxable value, so a tax-only difference stays green.'],
+].map((r) => r.map((c) => (typeof c === 'string' ? str(c) : typeof c === 'number' ? { v: c, t: 'n' } : c))));
+sumWs['!cols'] = [{ wch: 52 }, { wch: 14 }];
+const keyWb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(keyWb, sumWs, 'Expected totals');
+XLSX.utils.book_append_sheet(keyWb, keyWs, 'Per-invoice key');
+XLSX.writeFile(keyWb, path.join(OUT, 'Answer_Key_Expected_Results.xlsx'));
+
+fs.writeFileSync(path.join(OUT, 'expected.json'), JSON.stringify({ expected, entries: entries.map((e) => ({ id: e.id, exp: e.exp, b: e.books && String(e.books.inv), p: e.portal && String(e.portal.inv) })) }, null, 2));
+console.log('Generated into', OUT, expected);
+</file>
+
+<file path="test-data/verify.js">
+'use strict';
+// Runs the generated files through the real engine and compares with the answer key.
+const fs = require('fs');
+const path = require('path');
+const { processUpload } = require('../utils/reconcile');
+
+const dir = path.join(__dirname, 'files');
+const file = (name) => ({ buffer: fs.readFileSync(path.join(dir, name)), originalname: name });
+const { expected, entries } = JSON.parse(fs.readFileSync(path.join(dir, 'expected.json'), 'utf8'));
+
+const out = processUpload(file('Purchase_Register_Tally_Style_Sep2026.xlsx'), file('GSTR2B_Official_Format_Sep2026.xlsx'));
+if (!out.ok) { console.error('FAILED TO PARSE:', out.error); process.exit(1); }
+const { results: r, summary: s } = out;
+
+const actual = {
+  booksUsable: s.booksCount, portalUsable: s.portalCount, exact: r.exact.length,
+  probable: r.mismatches.filter((m) => !m.reason.startsWith('Taxable')).length,
+  value: r.mismatches.filter((m) => m.reason.startsWith('Taxable')).length,
+  missingPortal: r.missingInPortal.length, missingBooks: r.missingInBooks.length,
+  skippedBooksRows: Number((out.warnings.join(' ').match(/skipped (\d+)/) || [])[1] || 0),
+  itcAtRisk: s.itcAtRisk,
+};
+let bad = 0;
+Object.keys(expected).forEach((k) => {
+  const ok = actual[k] === expected[k];
+  if (!ok) bad++;
+  console.log(`${ok ? 'PASS' : 'FAIL'}  ${k.padEnd(18)} expected ${expected[k]}  got ${actual[k]}`);
+});
+
+// per-invoice placement
+const where = { B: new Map(), P: new Map() };
+const put = (side, inv, bucket) => where[side].set(inv, [...(where[side].get(inv) || []), bucket]);
+r.exact.forEach((m) => { put('B', m.books.invoiceRaw, 'EXACT'); put('P', m.portal.invoiceRaw, 'EXACT'); });
+r.mismatches.forEach((m) => { const b = m.reason.startsWith('Taxable') ? 'VALUE_MISMATCH' : 'PROBABLE'; put('B', m.books.invoiceRaw, b); put('P', m.portal.invoiceRaw, b); });
+r.missingInPortal.forEach((x) => put('B', x.invoiceRaw, 'MISSING_PORTAL'));
+r.missingInBooks.forEach((x) => put('P', x.invoiceRaw, 'MISSING_BOOKS'));
+entries.filter((e) => e.id !== 'T10a' && e.id !== 'T10b').forEach((e) => {
+  const want = e.exp === 'EXACT*' ? 'EXACT' : e.exp;
+  [['B', e.b], ['P', e.p]].filter(([, inv]) => inv).forEach(([sd, inv]) => {
+    const got = (where[sd].get(inv) || []).join('/') || 'NOT FOUND';
+    if (got !== want) { bad++; console.log(`FAIL  ${e.id} ${sd}:${inv} expected ${want} got ${got}`); }
+  });
+});
+console.log(bad ? `\n${bad} check(s) failed` : '\nAll checks passed ✔');
+console.log('Warnings:', out.warnings);
+process.exit(bad ? 1 : 0);
+</file>
+
+<file path="utils/exporter.js">
+'use strict';
+const XLSX = require('xlsx-js-style'); // drop-in SheetJS fork that supports cell colours
+
+const COLORS = {
+  exact:    { head: '2E7D32', row: 'E3F4E5' },
+  mismatch: { head: 'B7791F', row: 'FFF6D6' },
+  portal:   { head: 'C62828', row: 'FDE3E3' },
+  books:    { head: '1565C0', row: 'E1EEFC' },
+  summary:  { head: '14213D', row: 'F1F3F7' },
+  late:     { head: '6D28D9', row: 'EEE7FB' },
+  skipped:  { head: '475467', row: 'F2F4F7' },
+};
+
+const side = { style: 'thin', color: { rgb: 'D0D5DD' } };
+const borders = { top: side, bottom: side, left: side, right: side };
+const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+
+const headerCell = (v, color) => ({
+  v, t: 's',
+  s: { font: { bold: true, color: { rgb: 'FFFFFF' } }, fill: { fgColor: { rgb: color } }, border: borders, alignment: { vertical: 'center', wrapText: true } },
+});
+
+const bodyCell = (v, color) => {
+  const isNum = typeof v === 'number';
+  return {
+    v: v ?? '',
+    t: isNum ? 'n' : 's',
+    s: { fill: { fgColor: { rgb: color } }, border: borders, ...(isNum ? { numFmt: '#,##0.00' } : {}) },
+  };
+};
+
+const buildSheet = (headers, rows, palette) => {
+  const aoa = [
+    headers.map((h) => headerCell(h, palette.head)),
+    ...rows.map((r) => r.map((v) => bodyCell(v, palette.row))),
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = headers.map((h, i) => ({
+    wch: Math.min(42, Math.max(h.length + 2, ...rows.map((r) => String(r[i] ?? '').length + 2))),
+  }));
+  ws['!autofilter'] = { ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: Math.max(rows.length, 1), c: headers.length - 1 } }) };
+  return ws;
+};
+
+const PLAIN_HEAD = ['Supplier', 'GSTIN', 'Invoice No', 'Date', 'Taxable Value', 'IGST', 'CGST', 'SGST', 'Total Tax'];
+const plainRow = (r) => [r.name, r.gstin, r.invoiceRaw, r.date, r.taxable, r.igst, r.cgst, r.sgst, r.tax];
+
+const summarySheet = (s) =>
+  buildSheet(
+    ['Metric', 'Count', 'Tax Amount (₹)'],
+    [
+      ['Purchase Register invoices', s.booksCount, ''],
+      ['GSTR-2B invoices', s.portalCount, ''],
+      ['Exact matches', s.exact.count, s.exact.tax],
+      ['Mismatches / probable typos', s.mismatches.count, s.mismatches.tax],
+      ['Missing in GSTR-2B (unclaimed ITC)', s.missingInPortal.count, s.missingInPortal.tax],
+      ['Missing in Books', s.missingInBooks.count, s.missingInBooks.tax],
+      ['Late claimed ITC (prior-month match)', s.lateClaimed?.count ?? 0, s.lateClaimed?.tax ?? 0],
+      ['Skipped / invalid rows', s.skippedCount ?? 0, ''],
+      ['ITC at risk', '', s.itcAtRisk],
+      ['Match rate', `${s.matchRate}%`, ''],
+    ],
+    COLORS.summary
+  );
+
+/** Returns an .xlsx Buffer with Summary + 4 colour-coded sheets. */
+const NON_COMPLIANT_HEAD = ['Supplier Name', 'GSTIN', 'Invoice No', 'Date', 'Taxable Value', 'Total Tax (ITC at Risk)'];
+
+/** Follow-up sheet: every invoice that is in the books but missing from GSTR-2B. */
+const buildNonCompliantBuffer = (missingInPortal) => {
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, buildSheet(
+    NON_COMPLIANT_HEAD,
+    missingInPortal.map((r) => [r.name, r.gstin, r.invoiceRaw, r.date, r.taxable, r.tax]),
+    COLORS.portal
+  ), 'Non-Compliant Suppliers');
+  return XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+};
+
+const rawText = (raw) => Object.entries(raw).map(([k, v]) => `${k}: ${v}`).join(' | ');
+
+const buildExportBuffer = ({ results, summary, skippedRows = [] }) => {
+  const wb = XLSX.utils.book_new();
+  const add = (name, ws) => XLSX.utils.book_append_sheet(wb, ws, name);
+
+  add('Summary', summarySheet(summary));
+  add('Exact Matches', buildSheet(PLAIN_HEAD, results.exact.map((m) => plainRow(m.books)), COLORS.exact));
+  add('Mismatches', buildSheet(
+    ['GSTIN', 'Books Invoice', 'Portal Invoice', 'Books Taxable', 'Portal Taxable', 'Taxable Diff', 'Books Tax', 'Portal Tax', 'Tax Diff', 'Reason'],
+    results.mismatches.map(({ books: b, portal: p, reason }) => [
+      b.gstin, b.invoiceRaw, p.invoiceRaw, b.taxable, p.taxable, round2(b.taxable - p.taxable),
+      b.tax, p.tax, round2(b.tax - p.tax), reason,
+    ]),
+    COLORS.mismatch
+  ));
+  add('Missing in GSTR-2B', buildSheet(PLAIN_HEAD, results.missingInPortal.map(plainRow), COLORS.portal));
+  add('Missing in Books', buildSheet(PLAIN_HEAD, results.missingInBooks.map(plainRow), COLORS.books));
+
+  add('Late Claimed ITC', buildSheet(
+    ['Supplier', 'GSTIN', 'Invoice No', 'Original Period', 'Date', 'Taxable Value', 'Total Tax', 'Note'],
+    (results.lateClaimed || []).map(({ ledger: l, portal: p, message }) => [p.name || l.name, p.gstin, p.invoiceRaw, l.periodLabel, p.date, p.taxable, p.tax, message]),
+    COLORS.late
+  ));
+  add('Skipped Rows', buildSheet(
+    ['Source', 'Excel Row', 'Reason', 'Raw Data'],
+    skippedRows.map((s) => [s.sourceLabel, s.rowIndex, s.reasonForSkipping, rawText(s.rawData)]),
+    COLORS.skipped
+  ));
+
+  return XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+};
+
+module.exports = { buildExportBuffer, buildNonCompliantBuffer };
+</file>
+
+<file path="utils/ledger.js">
+'use strict';
+/**
+ * Tiny JSON-file persistence for the unreconciled-ITC ledger (data/unreconciled_ledger.json).
+ * Shape: { pending: [entry], claimed: [entry + claimedIn, claimedAt] }.
+ * All ledger *logic* lives in reconcile.js as pure functions; this file only does I/O.
+ */
+const fs = require('fs');
+const path = require('path');
+const { emptyLedger } = require('./reconcile');
+
+const createLedgerFile = (file = path.join(__dirname, '..', 'data', 'unreconciled_ledger.json')) => ({
+  file,
+  load: () => {
+    try {
+      const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+      return { pending: Array.isArray(data.pending) ? data.pending : [], claimed: Array.isArray(data.claimed) ? data.claimed : [] };
+    } catch (e) {
+      return emptyLedger(); // missing or corrupt file -> start fresh
+    }
+  },
+  save: (ledger) => {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    const tmp = `${file}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(ledger, null, 2));
+    fs.renameSync(tmp, file); // atomic swap so a crash never leaves half a file
+  },
+});
+
+module.exports = { createLedgerFile };
+</file>
+
+<file path="utils/reconcile.js">
+'use strict';
+/**
+ * GSTR-2B vs Purchase Register reconciliation — functional style only.
+ * Pure helpers + small pipelines. The only mutation is inside local reduce
+ * accumulators (never leaks outside a function).
+ */
+const XLSX = require('xlsx');
+
+/* ───────────────────────────── Config ───────────────────────────── */
+const TOLERANCE = 10;               // ₹ tolerance on taxable value for "probable" matches
+const MIN_INVOICE_SIMILARITY = 0.4; // 0..1, how alike cleaned invoice numbers must be
+
+/* ───────────────────────── Clean-up utilities ───────────────────── */
+const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
+
+const cleanInvoiceNum = (str) =>
+  String(str ?? '').trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+
+const cleanGSTIN = (str) => String(str ?? '').replace(/\s+/g, '').toUpperCase();
+
+const cleanAmount = (val) => {
+  if (typeof val === 'number') return Number.isFinite(val) ? round2(val) : 0;
+  const text = String(val ?? '').trim();
+  if (!text) return 0;
+  const negative = /^\(.*\)$/.test(text) || /^-/.test(text);
+  const num = parseFloat(text.replace(/[^0-9.]/g, ''));
+  return Number.isFinite(num) ? round2(negative ? -num : num) : 0;
+};
+
+const normalizeHeader = (h) => String(h ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+const formatDate = (val) => {
+  if (val === undefined || val === null || val === '') return '';
+  if (typeof val === 'number') {
+    const d = XLSX.SSF.parse_date_code(val);
+    return d ? `${String(d.d).padStart(2, '0')}-${String(d.m).padStart(2, '0')}-${d.y}` : String(val);
+  }
+  return String(val).trim();
+};
+
+/* ─────────────────────────── Column mapping ─────────────────────── */
+const FIELD_ALIASES = {
+  gstin: ['gstin', 'gstinofsupplier', 'suppliergstin', 'vendorgstin', 'partygstin', 'gstno', 'gstinuin', 'gstnumber'],
+  invoice: ['invoicenumber', 'invoiceno', 'invoicenum', 'invoice', 'billno', 'billnumber', 'invno', 'documentnumber', 'docno', 'supplierinvoiceno', 'voucherno'],
+  taxable: ['taxablevalue', 'taxableamount', 'taxable', 'taxablevaluers', 'basicvalue', 'assessablevalue', 'taxableamt'],
+  name: ['tradename', 'legalname', 'tradelegalname', 'suppliername', 'vendorname', 'partyname', 'name', 'particulars', 'supplier'],
+  date: ['invoicedate', 'billdate', 'date', 'documentdate', 'invdate'],
+  igst: ['igst', 'integratedtax', 'integratedtaxamount', 'igstamount'],
+  cgst: ['cgst', 'centraltax', 'centraltaxamount', 'cgstamount'],
+  sgst: ['sgst', 'sgstutgst', 'stateuttax', 'statetax', 'stateuttaxamount', 'sgstamount', 'utgst'],
+  totalTax: ['totaltax', 'totalgst', 'gstamount', 'taxamount', 'gst'],
+};
+const REQUIRED_FIELDS = ['gstin', 'invoice', 'taxable'];
+const FIELD_LABELS = { gstin: 'GSTIN', invoice: 'Invoice Number', taxable: 'Taxable Value' };
+
+const buildColumnMap = (headerRow) => {
+  const normalized = headerRow.map(normalizeHeader);
+  return Object.fromEntries(
+    Object.entries(FIELD_ALIASES).map(([field, aliases]) => [
+      field,
+      // alias order = priority (e.g. "Supplier Invoice No" beats "Voucher No")
+      aliases.map((a) => normalized.indexOf(a)).find((i) => i >= 0) ?? -1,
+    ])
+  );
+};
+
+const scoreColumnMap = (map) => REQUIRED_FIELDS.filter((f) => map[f] >= 0).length;
+
+const isFilled = (c) => String(c ?? '').trim() !== '';
+
+/** Overlay two consecutive header rows (official GSTR-2B has a 2-row merged header). */
+const mergeHeaderRows = (upper = [], lower = []) =>
+  Array.from({ length: Math.max(upper.length, lower.length) }, (_, k) =>
+    isFilled(lower[k]) ? lower[k] : upper[k]
+  );
+
+/**
+ * Looks through the first 25 rows for the best header, trying each row on its own and
+ * merged with the row below it. `index` is the LAST header row, so data starts at index + 1.
+ */
+const findHeaderRow = (rows) =>
+  rows
+    .slice(0, 25)
+    .flatMap((row, i) => [
+      { index: i, headers: row },
+      { index: i + 1, headers: mergeHeaderRows(row, rows[i + 1]) },
+    ])
+    .reduce(
+      (best, cand) => {
+        const map = buildColumnMap(cand.headers);
+        const score = scoreColumnMap(map);
+        return score > best.score ? { index: cand.index, score, map, headers: cand.headers } : best;
+      },
+      { index: -1, score: -1, map: {}, headers: [] }
+    );
+
+/* ─────────────────────────── Validation ─────────────────────────── */
+const TAX_FIELDS = ['igst', 'cgst', 'sgst', 'totalTax'];
+
+/** True when a raw cell is blank, a dash placeholder, or a clean number (₹, commas, (neg) allowed). */
+const isValidAmountCell = (val) => {
+  if (val === undefined || val === null) return true;
+  if (typeof val === 'number') return Number.isFinite(val);
+  const t = String(val).replace(/[₹,\s]|rs\.?|inr/gi, '');
+  return t === '' || /^[-—–]+$/.test(t) || /^\(?-?(\d+\.?\d*|\.\d+)\)?$/.test(t);
+};
+
+/** Returns every problem found in a raw-fields object. `key` maps to an input in the fix form. */
+const validateFields = (f) => {
+  const issues = [
+    !cleanGSTIN(f.gstin) && { reason: 'Missing GSTIN', key: 'gstin' },
+    !cleanInvoiceNum(f.invoice) && { reason: 'Missing Invoice Number', key: 'invoice' },
+    !isValidAmountCell(f.taxable) && { reason: 'Invalid Taxable Value', key: 'taxable' },
+    TAX_FIELDS.some((k) => !isValidAmountCell(f[k])) && { reason: 'Invalid Tax Amount', key: 'tax' },
+  ].filter(Boolean);
+  return { issues, reason: issues.map((i) => i.reason).join('; ') };
+};
+
+/* ─────────────────────────── Parsing ────────────────────────────── */
+const isBlankRow = (row) => row.every((c) => String(c ?? '').trim() === '');
+
+/** Pull the raw (uncleaned) value of every known field out of one sheet row. */
+const rowToFields = (columnMap, row) =>
+  Object.fromEntries(Object.keys(FIELD_ALIASES).map((f) => [f, columnMap[f] >= 0 ? row[columnMap[f]] : undefined]));
+
+/** Raw fields -> normalized invoice record. */
+const fieldsToRecord = (f, excelRow) => {
+  const igst = cleanAmount(f.igst);
+  const cgst = cleanAmount(f.cgst);
+  const sgst = cleanAmount(f.sgst);
+  const split = round2(igst + cgst + sgst);
+  return {
+    row: excelRow,
+    gstin: cleanGSTIN(f.gstin),
+    invoice: cleanInvoiceNum(f.invoice),
+    invoiceRaw: String(f.invoice ?? '').trim(),
+    name: String(f.name ?? '').trim(),
+    date: formatDate(f.date),
+    taxable: cleanAmount(f.taxable),
+    igst, cgst, sgst,
+    tax: split || cleanAmount(f.totalTax),
+  };
+};
+
+/** Header-labelled view of a row (filled cells only) for display in the Skipped Rows tab. */
+const toRawData = (headers, row) =>
+  row.reduce((acc, cell, k) => {
+    if (!isFilled(cell)) return acc;
+    const label = String(headers[k] ?? '').trim() || `Column ${XLSX.utils.encode_col(k)}`;
+    const key = label in acc ? `${label} (${XLSX.utils.encode_col(k)})` : label;
+    return { ...acc, [key]: cell };
+  }, {});
+
+/**
+ * Parse one uploaded file buffer. Returns {ok, records, skippedRows, sheet} or {ok:false, error}.
+ * Rows that fail validation are NEVER dropped silently — they come back in `skippedRows`
+ * as { id, source, rowIndex, rawData, fields, reasonForSkipping, badFields }.
+ */
+const parseFile = (file, label, source = label === 'GSTR-2B' ? 'portal' : 'books') => {
+  let workbook;
+  try {
+    workbook = XLSX.read(file.buffer, { type: 'buffer', raw: true });
+  } catch (e) {
+    return { ok: false, error: `Couldn't read the ${label} file "${file.originalname}". Make sure it is a valid .xlsx, .xls or .csv file.` };
+  }
+
+  // Keep blank rows while reading so array position -> true Excel row number; then drop them for header detection.
+  const candidates = workbook.SheetNames.map((name) => {
+    const sheet = workbook.Sheets[name];
+    const startRow = sheet['!ref'] ? XLSX.utils.decode_range(sheet['!ref']).s.r : 0;
+    const filled = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', blankrows: true })
+      .map((row, i) => ({ row, excelRow: startRow + i + 1 }))
+      .filter(({ row }) => !isBlankRow(row));
+    const rows = filled.map((x) => x.row);
+    return { name, filled, rows, header: findHeaderRow(rows) };
+  }).sort((a, b) =>
+    b.header.score - a.header.score ||
+    Number(/^b2b$/i.test(b.name)) - Number(/^b2b$/i.test(a.name)) ||
+    b.rows.length - a.rows.length
+  );
+
+  const best = candidates[0];
+  if (!best || best.rows.length === 0) {
+    return { ok: false, error: `The ${label} file "${file.originalname}" looks empty. Please upload a file that has data rows.` };
+  }
+
+  const { index, score, map, headers } = best.header;
+  if (score < REQUIRED_FIELDS.length) {
+    const missing = REQUIRED_FIELDS.filter((f) => map[f] < 0).map((f) => FIELD_LABELS[f]);
+    const seen = (headers || best.rows[0] || []).filter(Boolean).slice(0, 10).join(', ') || 'none found';
+    return {
+      ok: false,
+      error: `The ${label} file is missing column(s): ${missing.join(', ')}. Headers we found: ${seen}. Rename your columns (e.g. "GSTIN", "Invoice Number", "Taxable Value") and try again.`,
+    };
+  }
+
+  const parsed = best.filled.slice(index + 1).map(({ row, excelRow }) => {
+    const fields = rowToFields(map, row);
+    return { row, excelRow, fields, check: validateFields(fields) };
+  });
+
+  const prefix = label[0];
+  const records = parsed
+    .filter((p) => !p.check.issues.length)
+    .map((p, id) => ({ ...fieldsToRecord(p.fields, p.excelRow), id: `${prefix}${id}` }));
+
+  const skippedRows = parsed
+    .filter((p) => p.check.issues.length)
+    .map((p) => ({
+      id: `${source}-${p.excelRow}`,
+      source,
+      sourceLabel: label,
+      rowIndex: p.excelRow,
+      rawData: toRawData(headers, p.row),
+      fields: p.fields,
+      reasonForSkipping: p.check.reason,
+      badFields: p.check.issues.map((i) => i.key),
+    }));
+
+  if (records.length === 0) {
+    return { ok: false, error: `No usable rows found in the ${label} file. Each row needs a GSTIN and an invoice number.` };
+  }
+  return { ok: true, records, skippedRows, sheet: best.name };
+};
+
+const buildWarnings = (skippedRows) =>
+  Object.entries(
+    skippedRows.reduce((acc, s) => ({ ...acc, [s.sourceLabel]: [...(acc[s.sourceLabel] || []), s] }), {})
+  ).map(([label, rows]) =>
+    `${label}: skipped ${rows.length} row(s) that failed validation (Excel rows ${rows.slice(0, 8).map((r) => r.rowIndex).join(', ')}${rows.length > 8 ? '…' : ''}).`
+  );
+
+/** Re-process one skipped row with user-supplied fixes. Pure: returns new `inputs` or an error. */
+const reprocessRow = (inputs, rowId, fix = {}) => {
+  const target = inputs.skippedRows.find((s) => s.id === rowId);
+  if (!target) return { ok: false, error: 'That row was not found (it may already have been re-processed).' };
+  const given = (k) => String(fix[k] ?? '').trim();
+  const fields = {
+    ...target.fields,
+    ...(given('gstin') && { gstin: given('gstin') }),
+    ...(given('invoice') && { invoice: given('invoice') }),
+    ...(given('taxable') && { taxable: given('taxable') }),
+    ...(given('tax') && { igst: '', cgst: '', sgst: '', totalTax: given('tax') }),
+  };
+  const check = validateFields(fields);
+  if (check.issues.length) return { ok: false, error: `Still invalid: ${check.reason}.` };
+  const prefix = target.source === 'books' ? 'P' : 'G';
+  const record = { ...fieldsToRecord(fields, target.rowIndex), id: `${prefix}r${target.rowIndex}`, reprocessed: true };
+  return {
+    ok: true,
+    inputs: {
+      ...inputs,
+      [target.source]: [...inputs[target.source], record],
+      skippedRows: inputs.skippedRows.filter((s) => s.id !== rowId),
+    },
+  };
+};
+
+/* ─────────────────────────── Matching ───────────────────────────── */
+const levenshtein = (a, b) =>
+  [...a].reduce(
+    (prev, ca, i) =>
+      [...b].reduce(
+        (row, cb, j) => [...row, Math.min(prev[j + 1] + 1, row[j] + 1, prev[j] + (ca === cb ? 0 : 1))],
+        [i + 1]
+      ),
+    Array.from({ length: b.length + 1 }, (_, i) => i)
+  ).at(-1);
+
+const similarity = (a, b) => {
+  const longest = Math.max(a.length, b.length);
+  return longest === 0 ? 1 : 1 - levenshtein(a, b) / longest;
+};
+
+const groupBy = (items, keyFn) =>
+  items.reduce((map, item) => {
+    const key = keyFn(item);
+    (map.get(key) || map.set(key, []).get(key)).push(item);
+    return map;
+  }, new Map());
+
+const sumBy = (items, fn) => round2(items.reduce((total, item) => total + fn(item), 0));
+
+const pairKey = (r) => `${r.gstin}|${r.invoice}`;
+const exactKey = (r) => `${pairKey(r)}|${r.taxable.toFixed(2)}`;
+
+/**
+ * Generic matching stage. `pick(book, index, used)` returns {rec, meta} or null.
+ * Returns matches + whatever is left unmatched on both sides.
+ */
+const runStage = (books, portal, indexKeyFn, pick) => {
+  const index = groupBy(portal, indexKeyFn);
+  const acc = books.reduce(
+    (state, book) => {
+      const hit = pick(book, index, state.used);
+      if (!hit) { state.restBooks.push(book); return state; }
+      state.used.add(hit.rec.id);
+      state.matches.push({ books: book, portal: hit.rec, ...hit.meta });
+      return state;
+    },
+    { matches: [], restBooks: [], used: new Set() }
+  );
+  return {
+    matches: acc.matches,
+    restBooks: acc.restBooks,
+    restPortal: portal.filter((p) => !acc.used.has(p.id)),
+  };
+};
+
+const firstUnused = (list = [], used) => list.find((r) => !used.has(r.id));
+
+const exactStage = (books, portal) =>
+  runStage(books, portal, exactKey, (book, index, used) => {
+    const rec = firstUnused(index.get(exactKey(book)), used);
+    return rec ? { rec, meta: { reason: 'Exact match', similarity: 1 } } : null;
+  });
+
+const sameInvoiceStage = (books, portal) =>
+  runStage(books, portal, pairKey, (book, index, used) => {
+    const rec = firstUnused(index.get(pairKey(book)), used);
+    if (!rec) return null;
+    const diff = round2(book.taxable - rec.taxable);
+    return { rec, meta: { reason: `Taxable value differs by ₹${Math.abs(diff).toFixed(2)}`, similarity: 1 } };
+  });
+
+const probableStage = (books, portal) =>
+  runStage(books, portal, (r) => r.gstin, (book, index, used) => {
+    const best = (index.get(book.gstin) || [])
+      .filter((p) => !used.has(p.id) && Math.abs(book.taxable - p.taxable) <= TOLERANCE)
+      .map((p) => ({ rec: p, sim: similarity(book.invoice, p.invoice), gap: Math.abs(book.taxable - p.taxable) }))
+      .filter((c) => c.sim >= MIN_INVOICE_SIMILARITY)
+      .reduce((top, c) => (!top || c.sim > top.sim || (c.sim === top.sim && c.gap < top.gap) ? c : top), null);
+    return best
+      ? { rec: best.rec, meta: { reason: 'Invoice number differs (probable typo)', similarity: round2(best.sim) } }
+      : null;
+  });
+
+/** Core pipeline: exact → same-invoice-value-diff → probable → leftovers. */
+const matchRecords = (books, portal) => {
+  const s1 = exactStage(books, portal);
+  const s2 = sameInvoiceStage(s1.restBooks, s1.restPortal);
+  const s3 = probableStage(s2.restBooks, s2.restPortal);
+  return {
+    exact: s1.matches,
+    mismatches: [...s2.matches, ...s3.matches],
+    missingInPortal: s3.restBooks,
+    missingInBooks: s3.restPortal,
+  };
+};
+
+/* ─────────────────────────── Summary ────────────────────────────── */
+const bucketStats = (records) => ({
+  count: records.length,
+  taxable: sumBy(records, (r) => r.taxable),
+  tax: sumBy(records, (r) => r.tax),
+});
+
+const buildSummary = (booksCount, portalCount, r) => {
+  const excessInMismatch = sumBy(r.mismatches, (m) => Math.max(0, m.books.tax - m.portal.tax));
+  return {
+    booksCount,
+    portalCount,
+    exact: bucketStats(r.exact.map((m) => m.books)),
+    mismatches: bucketStats(r.mismatches.map((m) => m.books)),
+    missingInPortal: bucketStats(r.missingInPortal),
+    missingInBooks: bucketStats(r.missingInBooks),
+    discrepancyCount: r.mismatches.length + r.missingInPortal.length + r.missingInBooks.length,
+    itcAtRisk: round2(sumBy(r.missingInPortal, (x) => x.tax) + excessInMismatch),
+    matchRate: booksCount ? Math.round((r.exact.length / booksCount) * 100) : 0,
+  };
+};
+
+/* ───────────────────── Follow-up links (Missing in GSTR-2B) ───────────────────── */
+const formatINR = (n) =>
+  Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const reminderMessage = (r) =>
+  `Hi ${r.name || 'Sir/Madam'}, your invoice ${r.invoiceRaw} dated ${r.date || 'N/A'} for ₹${formatINR(r.tax)} tax amount ` +
+  'is currently missing from GSTR-2B. Please upload this in your GSTR-1 return at the earliest so we can process your pending payment.';
+
+const reminderSubject = (r) => `Urgent: Missing Invoice ${r.invoiceRaw} in GSTR-2B`;
+const whatsappLink = (r) => `https://wa.me/?text=${encodeURIComponent(reminderMessage(r))}`;
+const mailtoLink = (r) =>
+  `mailto:?subject=${encodeURIComponent(reminderSubject(r))}&body=${encodeURIComponent(reminderMessage(r))}`;
+
+const withActionLinks = (r) => ({ ...r, links: { whatsapp: whatsappLink(r), email: mailtoLink(r) } });
+
+/* ───────────────────── Periods & unreconciled ITC ledger ───────────────────── */
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const isPeriod = (p) => /^\d{4}-(0[1-9]|1[0-2])$/.test(String(p ?? ''));
+/** '2026-09' -> 'Sep-2026' */
+const periodLabel = (p) => (isPeriod(p) ? `${MONTHS[Number(p.slice(5)) - 1]}-${p.slice(0, 4)}` : String(p || ''));
+
+/** Pull 'YYYY-MM' out of dd-mm-yyyy / dd/mm/yyyy / yyyy-mm-dd strings. */
+const dateToPeriod = (s) => {
+  const dmy = String(s).match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/);
+  const ymd = String(s).match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+  const [y, m] = dmy ? [dmy[3], dmy[2]] : ymd ? [ymd[1], ymd[2]] : [null, null];
+  const p = y ? `${y}-${String(m).padStart(2, '0')}` : '';
+  return isPeriod(p) ? p : '';
+};
+
+/** Most common invoice month in the GSTR-2B records (used when the user doesn't pick a period). */
+const derivePeriod = (records, today = new Date()) => {
+  const counts = [...groupBy(records.map((r) => dateToPeriod(r.date)).filter(Boolean), (p) => p)]
+    .map(([p, list]) => [p, list.length])
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : -1));
+  return counts[0]?.[0] || `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+};
+
+const emptyLedger = () => ({ pending: [], claimed: [] });
+
+const toLedgerEntry = (period, now) => (r) => ({
+  id: `${period}|${pairKey(r)}`,
+  period,
+  periodLabel: periodLabel(period),
+  gstin: r.gstin, invoice: r.invoice, invoiceRaw: r.invoiceRaw, name: r.name, date: r.date,
+  taxable: r.taxable, igst: r.igst, cgst: r.cgst, sgst: r.sgst, tax: r.tax,
+  savedAt: now,
+});
+
+/**
+ * Rollover check: which invoices flagged "missing" in an EARLIER month show up in this month's
+ * GSTR-2B? `portalLeft` should be the portal records not matched to this month's books.
+ * Entries already claimed in this same period are included so re-opening a report is idempotent.
+ */
+const rolloverMatch = (ledger, portalLeft, period) => {
+  const candidates = [...ledger.pending, ...ledger.claimed.filter((e) => e.claimedIn === period)]
+    .filter((e) => e.period < period);
+  const index = groupBy(portalLeft, pairKey);
+  return candidates.reduce(
+    (state, entry) => {
+      const rec = firstUnused(index.get(pairKey(entry)), state.used);
+      if (!rec) return state;
+      state.used.add(rec.id);
+      const diff = round2(rec.taxable - entry.taxable);
+      state.hits.push({
+        ledger: entry,
+        portal: rec,
+        taxableDiff: diff,
+        message: diff === 0
+          ? `Invoice ${entry.invoiceRaw} from ${entry.periodLabel} was filed late by supplier in ${periodLabel(period)} GSTR-2B. Safe to claim now!`
+          : `Invoice ${entry.invoiceRaw} from ${entry.periodLabel} now appears in ${periodLabel(period)} GSTR-2B, but its taxable value differs by ₹${formatINR(Math.abs(diff))} from your books. Verify before claiming.`,
+      });
+      return state;
+    },
+    { hits: [], used: new Set() }
+  ).hits;
+};
+
+/** Pure ledger transition after a run: clear matched entries, replace this period's pending list. */
+const updateLedger = (ledger, { period, missing, matchedIds, now = new Date().toISOString() }) => {
+  const matched = new Set(matchedIds);
+  const alreadyClaimed = new Set(ledger.claimed.map((e) => e.id));
+  const newlyClaimed = ledger.pending
+    .filter((e) => matched.has(e.id))
+    .map((e) => ({ ...e, claimedIn: period, claimedAt: now }));
+  const fresh = missing.map(toLedgerEntry(period, now)).filter((e) => !alreadyClaimed.has(e.id) && !matched.has(e.id));
+  return {
+    pending: [...ledger.pending.filter((e) => !matched.has(e.id) && e.period !== period), ...fresh],
+    claimed: [...ledger.claimed, ...newlyClaimed],
+  };
+};
+
+/* ─────────────────────────── Entry point ────────────────────────── */
+const reconcileRecords = (books, portal) => {
+  const results = matchRecords(books, portal);
+  return { results, summary: buildSummary(books.length, portal.length, results) };
+};
+
+/**
+ * Full pipeline on parsed inputs: this month's match + rollover against the saved ledger.
+ * Pure — returns the new ledger as `ledger` for the caller to persist.
+ */
+const buildOutcome = (inputs, ledger = emptyLedger(), now = new Date().toISOString()) => {
+  const { books, portal, skippedRows, period } = inputs;
+  const base = reconcileRecords(books, portal);
+  const late = rolloverMatch(ledger, base.results.missingInBooks, period);
+  const lateIds = new Set(late.map((l) => l.portal.id));
+
+  const results = {
+    ...base.results,
+    missingInPortal: base.results.missingInPortal.map(withActionLinks),
+    missingInBooks: base.results.missingInBooks.filter((p) => !lateIds.has(p.id)),
+    lateClaimed: late,
+  };
+  const summary = {
+    ...buildSummary(books.length, portal.length, results),
+    lateClaimed: { count: late.length, tax: sumBy(late, (l) => l.portal.tax) },
+    skippedCount: skippedRows.length,
+  };
+  return {
+    results,
+    summary,
+    skippedRows,
+    period,
+    periodLabel: periodLabel(period),
+    warnings: buildWarnings(skippedRows),
+    ledger: updateLedger(ledger, {
+      period, now,
+      missing: base.results.missingInPortal,
+      matchedIds: late.map((l) => l.ledger.id),
+    }),
+  };
+};
+
+/** Takes the two multer file objects; opts = { period: 'YYYY-MM', ledger }. */
+const processUpload = (booksFile, portalFile, opts = {}) => {
+  const books = parseFile(booksFile, 'Purchase Register', 'books');
+  if (!books.ok) return books;
+  const portal = parseFile(portalFile, 'GSTR-2B', 'portal');
+  if (!portal.ok) return portal;
+  const inputs = {
+    books: books.records,
+    portal: portal.records,
+    skippedRows: [...books.skippedRows, ...portal.skippedRows],
+    period: isPeriod(opts.period) ? opts.period : derivePeriod(portal.records),
+  };
+  return { ok: true, inputs, ...buildOutcome(inputs, opts.ledger || emptyLedger()) };
+};
+
+module.exports = {
+  TOLERANCE, MIN_INVOICE_SIMILARITY,
+  cleanInvoiceNum, cleanGSTIN, cleanAmount,
+  validateFields, parseFile, reprocessRow,
+  matchRecords, reconcileRecords, buildOutcome, processUpload,
+  reminderMessage, reminderSubject, whatsappLink, mailtoLink,
+  isPeriod, periodLabel, derivePeriod, emptyLedger, rolloverMatch, updateLedger,
+};
+</file>
+
+<file path="utils/sample.js">
+'use strict';
+const books = `Supplier Name,GSTIN,Invoice No,Invoice Date,Taxable Value,IGST,CGST,SGST
+Shree Traders,27AABCS1234A1Z5,INV/2026/01,05-09-2026,10000.00,0,900.00,900.00
+Nagpur Steel Co,27AAACN5678B1Z2,NS-1042,08-09-2026,50000.00,9000.00,0,0
+Orange City Papers,27AAECO9012C1Z8,OCP/77,11-09-2026,7500.50,0,675.05,675.05
+Vidarbha Hardware,27AAFCV3456D1Z1,VH/2026/0210,14-09-2026,20000.00,0,1800.00,1800.00
+Metro Packaging,27AAGCM7890E1Z4,MP-5521,18-09-2026,15000.00,2700.00,0,0
+Kisan Agro Supplies,27AAHCK1122F1Z9,KA/331,22-09-2026,4200.00,0,378.00,378.00`;
+
+const portal = `Trade Name,GSTIN of supplier,Invoice number,Invoice Date,Taxable Value (₹),Integrated Tax(₹),Central Tax(₹),State/UT Tax(₹)
+Shree Traders,27AABCS1234A1Z5,INV-2026-01,05-09-2026,10000.00,0,900.00,900.00
+Nagpur Steel Co,27AAACN5678B1Z2,NS1042,08-09-2026,50000.00,9000.00,0,0
+Orange City Papers,27AAECO9012C1Z8,OCP/077,11-09-2026,7503.00,0,675.27,675.27
+Vidarbha Hardware,27AAFCV3456D1Z1,VH/2026/0210,14-09-2026,19000.00,0,1710.00,1710.00
+Metro Packaging,27AAGCM7890E1Z4,MP-5521,18-09-2026,15000.00,2700.00,0,0
+Sai Logistics,27AAICS3344G1Z3,SL/908,25-09-2026,8800.00,0,792.00,792.00`;
+
+module.exports = { 'purchase-register-sample.csv': books, 'gstr2b-sample.csv': portal };
+</file>
+
+<file path="utils/store.js">
+'use strict';
+const crypto = require('crypto');
+
+/** Tiny in-memory result store with expiry (closure-based, no classes). */
+const createStore = (ttlMs = 60 * 60 * 1000) => {
+  const entries = new Map();
+  const sweep = () => {
+    const now = Date.now();
+    [...entries].filter(([, v]) => v.expires < now).forEach(([k]) => entries.delete(k));
+  };
+  return {
+    save: (data) => {
+      sweep();
+      const id = crypto.randomBytes(8).toString('hex');
+      entries.set(id, { data, expires: Date.now() + ttlMs });
+      return id;
+    },
+    set: (id, data) => {
+      const prev = entries.get(id);
+      if (prev) entries.set(id, { data, expires: Date.now() + ttlMs });
+      return Boolean(prev);
+    },
+    get: (id) => {
+      sweep();
+      return entries.get(id)?.data ?? null;
+    },
+  };
+};
+
+module.exports = { createStore };
+</file>
+
+<file path="views/partials/footer.ejs">
+<footer class="mt-auto py-6 text-center text-xs text-slate-500 no-print">
+  Uploaded files are processed in memory and never saved. Only invoices missing from GSTR-2B are kept in a local carry-forward ledger (<a href="/ledger" class="underline">view</a>). Always review the results before filing returns.
+</footer>
+</body>
+</html>
+</file>
+
+<file path="views/partials/head.ejs">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof title !== 'undefined' ? title : 'GSTR-2B Reconciler' %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'] },
+        colors: { ink: '#14213D', paper: '#F5F6F8' }
+      } }
+    };
+  </script>
+  <style>
+    .num { font-variant-numeric: tabular-nums; }
+    .tab-active { border-color: currentColor; font-weight: 600; }
+    @media print { .no-print { display: none !important; } .tab-panel { display: block !important; page-break-before: always; } }
+  </style>
+</head>
+<body class="bg-paper text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+</file>
+
+<file path="views/partials/header.ejs">
+<header class="bg-ink text-white no-print">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded">
+      <span class="grid place-items-center h-9 w-9 rounded bg-white text-ink font-bold text-sm">₹</span>
+      <span class="font-semibold text-lg tracking-tight">GSTR-2B Reconciler</span>
+    </a>
+    <span class="hidden sm:block text-sm text-slate-300">Books vs portal, matched in seconds</span>
+  </div>
+</header>
+</file>
+
+<file path="views/partials/table.ejs">
+<%# Params: rows (plain invoice records), emptyMsg, actions (optional: adds WhatsApp / email follow-up column) %>
+<% const withActions = typeof actions !== 'undefined' && actions; %>
+<% if (!rows.length) { %>
+  <div class="py-14 text-center text-slate-500"><%= emptyMsg %></div>
+<% } else { %>
+<div class="overflow-x-auto">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 text-left text-slate-600">
+      <tr>
+        <th class="px-3 py-2 font-medium">Supplier</th>
+        <th class="px-3 py-2 font-medium">GSTIN</th>
+        <th class="px-3 py-2 font-medium">Invoice no.</th>
+        <th class="px-3 py-2 font-medium">Date</th>
+        <th class="px-3 py-2 font-medium text-right">Taxable value (₹)</th>
+        <th class="px-3 py-2 font-medium text-right">IGST</th>
+        <th class="px-3 py-2 font-medium text-right">CGST</th>
+        <th class="px-3 py-2 font-medium text-right">SGST</th>
+        <th class="px-3 py-2 font-medium text-right">Total tax (₹)</th>
+        <% if (withActions) { %><th class="px-3 py-2 font-medium text-right no-print">Actions</th><% } %>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      <% rows.forEach(r => { %>
+      <tr class="searchable hover:bg-slate-50">
+        <td class="px-3 py-2"><%= r.name || '—' %></td>
+        <td class="px-3 py-2 font-mono text-xs"><%= r.gstin %></td>
+        <td class="px-3 py-2"><%= r.invoiceRaw %></td>
+        <td class="px-3 py-2 whitespace-nowrap"><%= r.date || '—' %></td>
+        <td class="px-3 py-2 text-right num"><%= inr(r.taxable) %></td>
+        <td class="px-3 py-2 text-right num text-slate-500"><%= inr(r.igst) %></td>
+        <td class="px-3 py-2 text-right num text-slate-500"><%= inr(r.cgst) %></td>
+        <td class="px-3 py-2 text-right num text-slate-500"><%= inr(r.sgst) %></td>
+        <td class="px-3 py-2 text-right num font-medium"><%= inr(r.tax) %></td>
+        <% if (withActions) { %>
+        <td class="px-3 py-2 text-right whitespace-nowrap no-print">
+          <a href="<%= r.links.whatsapp %>" target="_blank" rel="noopener noreferrer" class="inline-block rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-emerald-700">Send WhatsApp Reminder</a>
+          <a href="<%= r.links.email %>" class="ml-1 inline-block rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50">Draft Email</a>
+        </td>
+        <% } %>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<% } %>
+</file>
+
+<file path="views/index.ejs">
+<%- include('partials/head', { title: 'GSTR-2B Reconciler' }) %>
+<%- include('partials/header') %>
+
+<main class="max-w-3xl w-full mx-auto px-4 sm:px-6 py-10">
+  <h1 class="text-3xl sm:text-4xl font-bold text-ink tracking-tight">Match your purchase books with GSTR-2B</h1>
+  <p class="mt-3 text-slate-600 max-w-xl">Upload both files and see which invoices match, which look like typos, and where input tax credit is at risk.</p>
+
+  <% if (error) { %>
+  <div role="alert" class="mt-6 rounded-lg border border-red-200 bg-red-50 text-red-800 px-4 py-3 flex gap-3">
+    <span aria-hidden="true" class="font-bold">!</span>
+    <p class="text-sm"><%= error %></p>
+  </div>
+  <% } %>
+
+  <form id="form" action="/reconcile" method="POST" enctype="multipart/form-data" class="mt-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <% [
+        { name: 'books', title: 'Purchase Register (Books)', hint: 'Exported from Tally, Busy, Zoho or Excel' },
+        { name: 'portal', title: 'GSTR-2B Statement (Portal)', hint: 'Excel downloaded from the GST portal' }
+      ].forEach(f => { %>
+      <div>
+        <label for="<%= f.name %>" class="drop block cursor-pointer rounded-xl border-2 border-dashed border-slate-300 bg-white p-6 text-center transition hover:border-ink focus-within:border-ink focus-within:ring-2 focus-within:ring-ink/30" data-for="<%= f.name %>">
+          <span class="block font-semibold text-ink"><%= f.title %></span>
+          <span class="block mt-1 text-xs text-slate-500"><%= f.hint %></span>
+          <span class="mt-4 inline-block rounded-md bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700">Choose file or drop it here</span>
+          <span class="file-name mt-3 block text-sm text-emerald-700 font-medium break-all"></span>
+          <input id="<%= f.name %>" name="<%= f.name %>" type="file" accept=".xlsx,.xls,.csv" class="sr-only">
+        </label>
+        <p class="field-error mt-2 text-sm text-red-700 hidden" role="alert"></p>
+      </div>
+      <% }) %>
+    </div>
+
+    <div class="mt-5 max-w-xs">
+      <label for="period" class="block text-sm font-medium text-ink">GSTR-2B return period <span class="font-normal text-slate-500">(optional)</span></label>
+      <input id="period" name="period" type="month" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink/30">
+      <p class="mt-1 text-xs text-slate-500">Used to tag unmatched invoices (e.g. Sep-2026) and catch them if the supplier files late. Left blank, we read it from the invoice dates.</p>
+    </div>
+
+    <p class="mt-3 text-xs text-slate-500">Supported: .xlsx, .xls, .csv, up to 15 MB each.</p>
+
+    <button id="submit" type="submit" class="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-6 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ink disabled:opacity-70 disabled:cursor-wait">
+      <svg id="spinner" class="hidden h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity=".3" stroke-width="4"/><path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" stroke-width="4"/></svg>
+      <span id="submit-text">Reconcile now</span>
+    </button>
+  </form>
+
+  <section class="mt-12 grid gap-6 sm:grid-cols-2 text-sm">
+    <div class="rounded-xl bg-white border border-slate-200 p-5">
+      <h2 class="font-semibold text-ink">How invoices are matched</h2>
+      <ul class="mt-3 space-y-2 text-slate-600">
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0"></span>Exact: same GSTIN, invoice number and taxable value.</li>
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-amber-400 shrink-0"></span>Probable: same GSTIN, value within ₹10, invoice number slightly different.</li>
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-red-500 shrink-0"></span>Missing in GSTR-2B: in your books only, so ITC is unclaimed.</li>
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-blue-500 shrink-0"></span>Missing in Books: on the portal only.</li>
+      </ul>
+    </div>
+    <div class="rounded-xl bg-white border border-slate-200 p-5">
+      <h2 class="font-semibold text-ink">Column names we look for</h2>
+      <p class="mt-3 text-slate-600">GSTIN, Invoice Number, Taxable Value are required. Supplier name, invoice date, IGST, CGST and SGST are picked up when present. Header rows can sit anywhere in the top 25 rows.</p>
+      <p class="mt-3 text-slate-600">Want to try it first?
+        <a class="font-medium text-ink underline" href="/sample/purchase-register-sample.csv">Sample books</a> and
+        <a class="font-medium text-ink underline" href="/sample/gstr2b-sample.csv">sample GSTR-2B</a>.</p>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
+<script>
+  (function () {
+    const OK = /\.(xlsx|xls|csv)$/i;
+    const inputs = [...document.querySelectorAll('input[type=file]')];
+
+    const setError = (input, msg) => {
+      const box = input.closest('div').querySelector('.field-error');
+      box.textContent = msg || '';
+      box.classList.toggle('hidden', !msg);
+    };
+    const showFile = (input) => {
+      const file = input.files[0];
+      const label = input.closest('label');
+      label.querySelector('.file-name').textContent = file ? '✓ ' + file.name : '';
+      setError(input, file && !OK.test(file.name) ? 'Only .xlsx, .xls and .csv files are supported.' : '');
+    };
+
+    inputs.forEach((input) => {
+      input.addEventListener('change', () => showFile(input));
+      const zone = input.closest('label');
+      ['dragenter', 'dragover'].forEach((e) => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('border-ink', 'bg-slate-50'); }));
+      ['dragleave', 'drop'].forEach((e) => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.remove('border-ink', 'bg-slate-50'); }));
+      zone.addEventListener('drop', (ev) => {
+        if (ev.dataTransfer.files.length) { input.files = ev.dataTransfer.files; showFile(input); }
+      });
+    });
+
+    document.getElementById('form').addEventListener('submit', (ev) => {
+      const bad = inputs.filter((input) => {
+        const file = input.files[0];
+        setError(input, !file ? 'Please choose a file.' : !OK.test(file.name) ? 'Only .xlsx, .xls and .csv files are supported.' : '');
+        return !file || !OK.test(file.name);
+      });
+      if (bad.length) { ev.preventDefault(); bad[0].focus(); return; }
+      document.getElementById('submit').disabled = true;
+      document.getElementById('spinner').classList.remove('hidden');
+      document.getElementById('submit-text').textContent = 'Reconciling…';
+    });
+  })();
+</script>
+</file>
+
+<file path="views/ledger.ejs">
+<%- include('partials/head', { title: 'Unreconciled ITC ledger' }) %>
+<%- include('partials/header') %>
+<%
+  const byPeriod = ledger.pending.reduce((acc, e) => ({ ...acc, [e.period]: [...(acc[e.period] || []), e] }), {});
+  const periods = Object.keys(byPeriod).sort().reverse();
+  const total = ledger.pending.reduce((s, e) => s + e.tax, 0);
+%>
+<main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-ink tracking-tight">Unreconciled ITC ledger</h1>
+      <p class="mt-1 text-sm text-slate-600">Invoices in your books that were missing from GSTR-2B. Each new upload checks them against the new month's statement. JSON: <a class="underline" href="/api/ledger">/api/ledger</a></p>
+    </div>
+    <a href="/" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Back</a>
+  </div>
+
+  <p class="mt-5 text-sm text-slate-700"><strong><%= ledger.pending.length %></strong> pending invoice(s) &middot; ITC ₹<span class="num font-semibold text-red-700"><%= inr(total) %></span> still unclaimed &middot; <strong><%= ledger.claimed.length %></strong> claimed late</p>
+
+  <% if (!periods.length) { %>
+  <div class="mt-6 rounded-xl bg-white border border-slate-200 py-14 text-center text-slate-500">Nothing pending. Run a reconciliation to start building the ledger.</div>
+  <% } %>
+
+  <% periods.forEach(p => { const rows = byPeriod[p]; %>
+  <section class="mt-6 rounded-xl bg-white border border-slate-200 overflow-hidden">
+    <h2 class="px-4 py-3 bg-red-50 text-red-900 font-semibold text-sm"><%= periodLabel(p) %> <span class="font-normal">— <%= rows.length %> invoice(s), ₹<%= inr(rows.reduce((s, e) => s + e.tax, 0)) %></span></h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <tbody class="divide-y divide-slate-100">
+          <% rows.forEach(e => { %>
+          <tr>
+            <td class="px-3 py-2"><%= e.name || '—' %></td>
+            <td class="px-3 py-2 font-mono text-xs"><%= e.gstin %></td>
+            <td class="px-3 py-2"><%= e.invoiceRaw %></td>
+            <td class="px-3 py-2 whitespace-nowrap"><%= e.date || '—' %></td>
+            <td class="px-3 py-2 text-right num"><%= inr(e.taxable) %></td>
+            <td class="px-3 py-2 text-right num font-medium"><%= inr(e.tax) %></td>
+            <td class="px-3 py-2 text-right"><button class="rm text-xs text-slate-500 underline hover:text-red-700" data-id="<%= e.id %>">Remove</button></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <% }) %>
+</main>
+<%- include('partials/footer') %>
+<script>
+  document.querySelectorAll('.rm').forEach((b) => b.addEventListener('click', async () => {
+    if (!confirm('Remove this invoice from the pending ledger?')) return;
+    const res = await fetch('/api/ledger/' + encodeURIComponent(b.dataset.id), { method: 'DELETE' });
+    if (res.ok) location.reload();
+  }));
+</script>
+</file>
+
+<file path="views/results.ejs">
+<%- include('partials/head', { title: 'Reconciliation results' }) %>
+<%- include('partials/header') %>
+
+<%
+  const s = summary;
+  const tabs = [
+    { key: 'exact',    label: 'Exact matches',      count: results.exact.length,           dot: 'bg-emerald-500', text: 'text-emerald-700' },
+    { key: 'mismatch', label: 'Mismatches / typos', count: results.mismatches.length,      dot: 'bg-amber-400',   text: 'text-amber-700'   },
+    { key: 'portal',   label: 'Missing in GSTR-2B', count: results.missingInPortal.length, dot: 'bg-red-500',     text: 'text-red-700'     },
+    { key: 'books',    label: 'Missing in Books',   count: results.missingInBooks.length,  dot: 'bg-blue-500',    text: 'text-blue-700'    },
+    { key: 'late',     label: 'Late Claimed ITC (Prior Month Match)', count: results.lateClaimed.length, dot: 'bg-violet-500', text: 'text-violet-700' },
+    { key: 'skipped',  label: 'Skipped / Invalid Rows', count: skippedRows.length, dot: 'bg-slate-500', text: 'text-slate-700' },
+  ].filter(t => !['late', 'skipped'].includes(t.key) || t.count > 0);
+  const firstTab = (tabs.find(t => t.key === tab) || tabs.find(t => t.key !== 'exact' && t.count > 0) || tabs[0]).key;
+  const FIX_FIELDS = [
+    { key: 'gstin',   label: 'GSTIN',          placeholder: '27AABCS1234A1Z5' },
+    { key: 'invoice', label: 'Invoice no.',    placeholder: 'INV/001' },
+    { key: 'taxable', label: 'Taxable value',  placeholder: '10000.00' },
+    { key: 'tax',     label: 'Total tax',      placeholder: '1800.00' },
+  ];
+  const show = (v) => String(v ?? '');
+%>
+
+<main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-ink tracking-tight">Reconciliation results</h1>
+      <p class="mt-1 text-sm text-slate-600 break-all">Books: <span class="font-medium"><%= files.books %></span> &nbsp;|&nbsp; GSTR-2B: <span class="font-medium"><%= files.portal %></span> &nbsp;|&nbsp; Period: <span class="font-medium"><%= periodLabel %></span></p>
+    </div>
+    <div class="flex flex-wrap gap-3 no-print">
+      <a href="/export/<%= id %>" class="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-700">Export summary to Excel</a>
+      <button onclick="window.print()" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Print</button>
+      <a href="/" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Start over</a>
+    </div>
+  </div>
+
+  <% if (warnings.length) { %>
+  <div role="status" class="mt-5 rounded-lg border border-amber-200 bg-amber-50 text-amber-900 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-2">
+    <div class="space-y-1"><% warnings.forEach(w => { %><p><%= w %></p><% }) %></div>
+    <% if (skippedRows.length) { %>
+    <button type="button" data-goto="skipped" class="no-print rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700">Review &amp; fix skipped rows (<%= skippedRows.length %>) →</button>
+    <% } %>
+  </div>
+  <% } %>
+
+  <% if (results.lateClaimed.length) { %>
+  <div role="status" class="mt-4 rounded-lg border border-violet-200 bg-violet-50 text-violet-900 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-2">
+    <p><strong><%= results.lateClaimed.length %> invoice(s)</strong> flagged missing in earlier months now appear in <%= periodLabel %> GSTR-2B — ₹<span class="num"><%= inr(s.lateClaimed.tax) %></span> of ITC can be claimed.</p>
+    <button type="button" data-goto="late" class="no-print rounded-md bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-700">View late claims →</button>
+  </div>
+  <% } %>
+
+  <!-- Summary -->
+  <section class="mt-6 grid gap-4 md:grid-cols-3" aria-label="Summary">
+    <div class="rounded-xl bg-white border border-slate-200 p-5">
+      <h2 class="text-sm font-medium text-slate-500">Invoices</h2>
+      <p class="mt-2 flex items-baseline gap-2 text-ink">
+        <span class="text-3xl font-bold num"><%= s.booksCount %></span><span class="text-sm text-slate-500">in books</span>
+        <span class="text-slate-300">vs</span>
+        <span class="text-3xl font-bold num"><%= s.portalCount %></span><span class="text-sm text-slate-500">on portal</span>
+      </p>
+      <p class="mt-3 text-sm text-slate-600"><%= s.matchRate %>% of your books invoices matched exactly</p>
+      <div class="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-emerald-500" style="width: <%= s.matchRate %>%"></div></div>
+    </div>
+
+    <div class="rounded-xl bg-white border border-slate-200 p-5 border-l-4 border-l-emerald-500">
+      <h2 class="text-sm font-medium text-slate-500">Matched</h2>
+      <p class="mt-2 text-3xl font-bold text-emerald-700 num"><%= s.exact.count %> <span class="text-sm font-normal text-slate-500">invoices</span></p>
+      <p class="mt-3 text-sm text-slate-600">Taxable value ₹<span class="num"><%= inr(s.exact.taxable) %></span></p>
+      <p class="text-sm text-slate-600">Tax value ₹<span class="num font-medium"><%= inr(s.exact.tax) %></span></p>
+    </div>
+
+    <div class="rounded-xl bg-white border border-slate-200 p-5 border-l-4 border-l-red-500">
+      <h2 class="text-sm font-medium text-slate-500">Discrepancies</h2>
+      <p class="mt-2 text-3xl font-bold text-red-700 num"><%= s.discrepancyCount %> <span class="text-sm font-normal text-slate-500">to review</span></p>
+      <p class="mt-3 text-sm text-slate-600" title="Tax on invoices missing from GSTR-2B, plus any extra tax in books on mismatched invoices">ITC at risk ₹<span class="num font-semibold text-red-700"><%= inr(s.itcAtRisk) %></span></p>
+      <p class="text-sm text-slate-600">On portal, not in books: ₹<span class="num"><%= inr(s.missingInBooks.tax) %></span></p>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <section class="mt-8 rounded-xl bg-white border border-slate-200 overflow-hidden">
+    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 no-print">
+      <div role="tablist" class="flex overflow-x-auto">
+        <% tabs.forEach(t => { %>
+        <button role="tab" data-tab="<%= t.key %>" aria-selected="false" class="tab-btn flex items-center gap-2 whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 <%= t.text %>">
+          <span class="h-2.5 w-2.5 rounded-full <%= t.dot %>"></span><%= t.label %>
+          <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700 num"><%= t.count %></span>
+        </button>
+        <% }) %>
+      </div>
+      <div class="p-3">
+        <input id="search" type="search" placeholder="Search supplier, GSTIN or invoice…" class="w-full md:w-72 rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink/30">
+      </div>
+    </div>
+
+    <div id="panel-exact" class="tab-panel" hidden>
+      <%- include('partials/table', { rows: results.exact.map(m => m.books), emptyMsg: 'No exact matches found. Check that both files are for the same period.' }) %>
+    </div>
+
+    <div id="panel-mismatch" class="tab-panel" hidden>
+      <% if (!results.mismatches.length) { %>
+        <div class="py-14 text-center text-slate-500">No mismatches. Every matched invoice agreed exactly.</div>
+      <% } else { %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-amber-50 text-left text-amber-900">
+            <tr>
+              <th class="px-3 py-2 font-medium">GSTIN / Supplier</th>
+              <th class="px-3 py-2 font-medium">Invoice in books</th>
+              <th class="px-3 py-2 font-medium">Invoice on portal</th>
+              <th class="px-3 py-2 font-medium text-right">Taxable (books)</th>
+              <th class="px-3 py-2 font-medium text-right">Taxable (portal)</th>
+              <th class="px-3 py-2 font-medium text-right">Tax diff (₹)</th>
+              <th class="px-3 py-2 font-medium">Why it's flagged</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% results.mismatches.forEach(m => { const d = Math.round((m.books.tax - m.portal.tax) * 100) / 100; %>
+            <tr class="searchable hover:bg-amber-50/40">
+              <td class="px-3 py-2"><div class="font-mono text-xs"><%= m.books.gstin %></div><div class="text-slate-500"><%= m.books.name || m.portal.name %></div></td>
+              <td class="px-3 py-2"><%= m.books.invoiceRaw %></td>
+              <td class="px-3 py-2"><%= m.portal.invoiceRaw %></td>
+              <td class="px-3 py-2 text-right num"><%= inr(m.books.taxable) %></td>
+              <td class="px-3 py-2 text-right num"><%= inr(m.portal.taxable) %></td>
+              <td class="px-3 py-2 text-right num <%= d !== 0 ? 'text-red-700 font-medium' : 'text-slate-500' %>"><%= inr(d) %></td>
+              <td class="px-3 py-2"><span class="inline-block rounded-full bg-amber-100 px-2.5 py-0.5 text-xs text-amber-900"><%= m.reason %></span></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+    <div id="panel-portal" class="tab-panel" hidden>
+      <div class="px-4 pt-4 flex flex-wrap items-center justify-between gap-3 no-print">
+        <p class="text-sm text-slate-600">These are in your books but not on GSTR-2B. ITC can't be claimed until the supplier files them. They are saved to the carry-forward ledger under <strong><%= periodLabel %></strong>.</p>
+        <% if (results.missingInPortal.length) { %>
+        <a href="/export-non-compliant?id=<%= id %>" class="rounded-lg bg-red-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-700">Export Non-Compliant Suppliers Sheet</a>
+        <% } %>
+      </div>
+      <%- include('partials/table', { rows: results.missingInPortal, emptyMsg: 'Nothing missing from GSTR-2B. Nice.', actions: true }) %>
+    </div>
+
+    <div id="panel-books" class="tab-panel" hidden>
+      <p class="px-4 pt-4 text-sm text-slate-600 no-print">These are on GSTR-2B but not in your purchase register. You may have missed booking them.</p>
+      <%- include('partials/table', { rows: results.missingInBooks, emptyMsg: 'Everything on the portal is in your books.' }) %>
+    </div>
+
+    <% if (results.lateClaimed.length) { %>
+    <div id="panel-late" class="tab-panel" hidden>
+      <p class="px-4 pt-4 text-sm text-slate-600 no-print">Invoices that were missing from an earlier month's GSTR-2B and have now been filed by the supplier. They have been cleared from the pending ledger.</p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-violet-50 text-left text-violet-900">
+            <tr>
+              <th class="px-3 py-2 font-medium">Supplier</th>
+              <th class="px-3 py-2 font-medium">Invoice no.</th>
+              <th class="px-3 py-2 font-medium">Flagged in</th>
+              <th class="px-3 py-2 font-medium">Appeared in</th>
+              <th class="px-3 py-2 font-medium text-right">Taxable (₹)</th>
+              <th class="px-3 py-2 font-medium text-right">Tax (₹)</th>
+              <th class="px-3 py-2 font-medium">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% results.lateClaimed.forEach(l => { %>
+            <tr class="searchable hover:bg-violet-50/40">
+              <td class="px-3 py-2"><div><%= l.portal.name || l.ledger.name || '—' %></div><div class="font-mono text-xs text-slate-500"><%= l.portal.gstin %></div></td>
+              <td class="px-3 py-2"><%= l.portal.invoiceRaw %></td>
+              <td class="px-3 py-2 whitespace-nowrap"><%= l.ledger.periodLabel %></td>
+              <td class="px-3 py-2 whitespace-nowrap"><%= periodLabel %></td>
+              <td class="px-3 py-2 text-right num"><%= inr(l.portal.taxable) %></td>
+              <td class="px-3 py-2 text-right num font-medium"><%= inr(l.portal.tax) %></td>
+              <td class="px-3 py-2 max-w-sm">
+                <span class="inline-block rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-900">Late Claimed ITC (Prior Month Match)</span>
+                <p class="mt-1 text-xs <%= l.taxableDiff ? 'text-amber-800' : 'text-slate-600' %>"><%= l.message %></p>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% } %>
+
+    <% if (skippedRows.length) { %>
+    <div id="panel-skipped" class="tab-panel" hidden>
+      <p class="px-4 pt-4 text-sm text-slate-600 no-print">These rows were left out of the reconciliation. Fill in what's missing and re-process a row to bring it back in — no need to re-upload. Row numbers are Excel row numbers in your file.</p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50 text-left text-slate-700">
+            <tr>
+              <th class="px-3 py-2 font-medium">File</th>
+              <th class="px-3 py-2 font-medium">Excel row</th>
+              <th class="px-3 py-2 font-medium">Raw input data</th>
+              <th class="px-3 py-2 font-medium">Why it was skipped</th>
+              <th class="px-3 py-2 font-medium no-print">Fix &amp; re-process</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% skippedRows.forEach(sr => { %>
+            <tr class="searchable align-top hover:bg-slate-50">
+              <td class="px-3 py-3 whitespace-nowrap"><%= sr.sourceLabel %></td>
+              <td class="px-3 py-3 num"><%= sr.rowIndex %></td>
+              <td class="px-3 py-3 max-w-xs">
+                <% const entries = Object.entries(sr.rawData); %>
+                <% if (!entries.length) { %><span class="text-slate-400">(empty)</span><% } else { %>
+                <dl class="grid grid-cols-[auto,1fr] gap-x-3 gap-y-0.5 text-xs">
+                  <% entries.forEach(([k, v]) => { %><dt class="text-slate-500"><%= k %></dt><dd class="break-all"><%= show(v) %></dd><% }) %>
+                </dl>
+                <% } %>
+              </td>
+              <td class="px-3 py-3"><span class="inline-block rounded-full bg-red-100 px-2.5 py-0.5 text-xs text-red-800"><%= sr.reasonForSkipping %></span></td>
+              <td class="px-3 py-3 no-print">
+                <form class="reprocess-form" data-id="<%= id %>">
+                  <input type="hidden" name="rowId" value="<%= sr.id %>">
+                  <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    <% FIX_FIELDS.forEach(ff => { const bad = sr.badFields.includes(ff.key);
+                       const pre = ff.key === 'tax' ? '' : show(sr.fields[ff.key]); %>
+                    <label class="block text-xs text-slate-600"><%= ff.label %>
+                      <input name="<%= ff.key %>" value="<%= pre %>" placeholder="<%= ff.placeholder %>" class="mt-0.5 w-full rounded border px-2 py-1 text-sm <%= bad ? 'border-red-400 bg-red-50' : 'border-slate-300' %>">
+                    </label>
+                    <% }) %>
+                  </div>
+                  <div class="mt-2 flex items-center gap-3">
+                    <button type="submit" class="rounded-md bg-ink px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60">Re-process Row</button>
+                    <p class="form-error text-xs text-red-700" role="alert"></p>
+                  </div>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
+<script>
+  (function () {
+    const buttons = [...document.querySelectorAll('.tab-btn')];
+    const panels = [...document.querySelectorAll('.tab-panel')];
+
+    const show = (key) => {
+      buttons.forEach((b) => {
+        const on = b.dataset.tab === key;
+        b.setAttribute('aria-selected', on);
+        b.classList.toggle('tab-active', on);
+      });
+      panels.forEach((p) => { p.hidden = p.id !== 'panel-' + key; });
+      applySearch();
+    };
+
+    const applySearch = () => {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      document.querySelectorAll('.tab-panel:not([hidden]) .searchable').forEach((row) => {
+        row.hidden = q && !row.textContent.toLowerCase().includes(q);
+      });
+    };
+
+    buttons.forEach((b) => b.addEventListener('click', () => show(b.dataset.tab)));
+    document.querySelectorAll('[data-goto]').forEach((el) => el.addEventListener('click', () => {
+      show(el.dataset.goto);
+      document.getElementById('panel-' + el.dataset.goto)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+
+    document.querySelectorAll('.reprocess-form').forEach((form) => form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const btn = form.querySelector('button[type=submit]');
+      const err = form.querySelector('.form-error');
+      err.textContent = '';
+      btn.disabled = true; btn.textContent = 'Re-processing…';
+      try {
+        const res = await fetch('/reprocess/' + form.dataset.id, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Could not re-process this row.');
+        location.href = '/results/' + form.dataset.id + (data.remaining ? '?tab=skipped' : '');
+      } catch (e) {
+        err.textContent = e.message;
+        btn.disabled = false; btn.textContent = 'Re-process Row';
+      }
+    }));
+    document.getElementById('search').addEventListener('input', applySearch);
+    show('<%= firstTab %>');
+  })();
+</script>
+</file>
+
+<file path="package.json">
+{
+  "name": "gstr-recon",
+  "version": "1.0.0",
+  "description": "GSTR-2B vs Purchase Register reconciliation tool for CAs and accountants",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "xlsx": "^0.18.5",
+    "xlsx-js-style": "^1.2.0"
+  }
+}
+</file>
+
+<file path="server.js">
+'use strict';
+const path = require('path');
+const express = require('express');
+const multer = require('multer');
+
+const { processUpload, buildOutcome, reprocessRow, periodLabel } = require('./utils/reconcile');
+const { buildExportBuffer, buildNonCompliantBuffer } = require('./utils/exporter');
+const { createStore } = require('./utils/store');
+const { createLedgerFile } = require('./utils/ledger');
+const samples = require('./utils/sample');
+
+const PORT = process.env.PORT || 3000;
+const ALLOWED_EXT = ['.xlsx', '.xls', '.csv'];
+const MAX_MB = 15;
+
+const store = createStore();
+const ledgerFile = createLedgerFile();
+const app = express();
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+const TAB_KEYS = ['exact', 'mismatch', 'portal', 'books', 'late', 'skipped'];
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.locals.inr = (n) =>
+  Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+app.locals.periodLabel = periodLabel;
+
+/* ── Upload handling ───────────────────────────────────────────── */
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: MAX_MB * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const ok = ALLOWED_EXT.includes(path.extname(file.originalname).toLowerCase());
+    cb(ok ? null : new multer.MulterError('LIMIT_UNEXPECTED_FILE', file.fieldname), ok);
+  },
+}).fields([{ name: 'books', maxCount: 1 }, { name: 'portal', maxCount: 1 }]);
+
+const uploadErrorMessage = (err) =>
+  err.code === 'LIMIT_FILE_SIZE' ? `One of the files is larger than ${MAX_MB} MB.`
+  : err.code === 'LIMIT_UNEXPECTED_FILE' ? 'Only .xlsx, .xls and .csv files are supported.'
+  : 'The upload failed. Please try again.';
+
+const withUpload = (req, res, next) =>
+  upload(req, res, (err) =>
+    err ? res.status(400).render('index', { error: uploadErrorMessage(err) }) : next()
+  );
+
+const missingFilesMessage = (files = {}) => {
+  const missing = [
+    !files.books?.[0] && 'Purchase Register (Books)',
+    !files.portal?.[0] && 'GSTR-2B Statement (Portal)',
+  ].filter(Boolean);
+  return missing.length ? `Please choose a file for: ${missing.join(' and ')}.` : null;
+};
+
+/* ── Routes ────────────────────────────────────────────────────── */
+app.get('/', (req, res) => res.render('index', { error: null }));
+
+/** Ledger is persisted separately from the (expiring) in-memory report. */
+const persistOutcome = ({ ledger, ...session }) => {
+  ledgerFile.save(ledger);
+  return session;
+};
+
+const expired = (res) =>
+  res.status(404).render('index', { error: 'That report has expired. Please upload your files again.' });
+
+app.post('/reconcile', withUpload, (req, res) => {
+  const problem = missingFilesMessage(req.files);
+  if (problem) return res.status(400).render('index', { error: problem });
+
+  try {
+    const outcome = processUpload(req.files.books[0], req.files.portal[0], {
+      period: req.body?.period,
+      ledger: ledgerFile.load(),
+    });
+    if (!outcome.ok) return res.status(422).render('index', { error: outcome.error });
+
+    const session = persistOutcome(outcome);
+    const id = store.save({
+      ...session,
+      files: { books: req.files.books[0].originalname, portal: req.files.portal[0].originalname },
+    });
+    return res.redirect(303, `/results/${id}`); // PRG: refresh/back never re-submits the upload
+  } catch (e) {
+    console.error(e);
+    return res.status(500).render('index', { error: 'Something went wrong while reconciling. Please check your files and try again.' });
+  }
+});
+
+app.get('/results/:id', (req, res) => {
+  const data = store.get(req.params.id);
+  if (!data) return expired(res);
+  const tab = TAB_KEYS.includes(req.query.tab) ? req.query.tab : '';
+  return res.render('results', { ...data, id: req.params.id, tab });
+});
+
+/** Re-process one skipped row with the GSTIN / invoice / amount the user typed in. */
+app.post('/reprocess/:id', (req, res) => {
+  const data = store.get(req.params.id);
+  if (!data) return res.status(404).json({ ok: false, error: 'This report has expired. Please upload your files again.' });
+
+  const fixed = reprocessRow(data.inputs, String(req.body?.rowId ?? ''), req.body);
+  if (!fixed.ok) return res.status(422).json(fixed);
+
+  try {
+    const session = persistOutcome(buildOutcome(fixed.inputs, ledgerFile.load()));
+    store.set(req.params.id, { ...data, ...session, inputs: fixed.inputs });
+    return res.json({ ok: true, remaining: session.skippedRows.length });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ ok: false, error: 'Could not re-process that row.' });
+  }
+});
+
+app.get('/export/:id', (req, res) => {
+  const data = store.get(req.params.id);
+  if (!data) return expired(res);
+  res.set({ 'Content-Type': XLSX_MIME, 'Content-Disposition': 'attachment; filename="GSTR2B-Reconciliation.xlsx"' });
+  return res.send(buildExportBuffer(data));
+});
+
+/** Follow-up sheet for suppliers whose invoices are missing from GSTR-2B. Usage: /export-non-compliant?id=<reportId> */
+app.get('/export-non-compliant', (req, res) => {
+  const data = store.get(String(req.query.id ?? ''));
+  if (!data) return expired(res);
+  res.set({
+    'Content-Type': XLSX_MIME,
+    'Content-Disposition': `attachment; filename="Non-Compliant-Suppliers-${data.periodLabel}.xlsx"`,
+  });
+  return res.send(buildNonCompliantBuffer(data.results.missingInPortal));
+});
+
+/* ── Saved history (unreconciled ITC ledger) ───────────────────── */
+app.get('/api/ledger', (req, res) => {
+  const { pending, claimed } = ledgerFile.load();
+  res.json({
+    pendingCount: pending.length,
+    pendingTax: Math.round(pending.reduce((s, e) => s + e.tax, 0) * 100) / 100,
+    pending,
+    claimed,
+  });
+});
+
+app.delete('/api/ledger/:entryId', (req, res) => {
+  const ledger = ledgerFile.load();
+  const next = { ...ledger, pending: ledger.pending.filter((e) => e.id !== req.params.entryId) };
+  if (next.pending.length === ledger.pending.length) return res.status(404).json({ ok: false, error: 'Entry not found.' });
+  ledgerFile.save(next);
+  return res.json({ ok: true });
+});
+
+app.get('/ledger', (req, res) => res.render('ledger', { ledger: ledgerFile.load() }));
+
+app.get('/sample/:name', (req, res) => {
+  const csv = samples[req.params.name];
+  if (!csv) return res.status(404).send('Not found');
+  res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="${req.params.name}"` });
+  return res.send(csv);
+});
+
+app.use((req, res) => res.status(404).render('index', { error: 'Page not found.' }));
+
+app.listen(PORT, () => console.log(`GSTR-2B Reconciler running → http://localhost:${PORT}`));
+</file>
+
+<file path="structure.txt">
+Folder PATH listing for volume New Volume
+Volume serial number is C295-9255
+D:.
++---node_modules
+ª   +---.bin
+ª   +---accepts
+ª   +---adler-32
+ª   ª   +---types
+ª   +---append-field
+ª   ª   +---lib
+ª   ª   +---test
+ª   +---array-flatten
+ª   +---async
+ª   ª   +---dist
+ª   ª   +---internal
+ª   +---balanced-match
+ª   ª   +---.github
+ª   +---body-parser
+ª   ª   +---lib
+ª   ª       +---types
+ª   +---brace-expansion
+ª   ª   +---.github
+ª   +---buffer-from
+ª   +---busboy
+ª   ª   +---.github
+ª   ª   ª   +---workflows
+ª   ª   +---bench
+ª   ª   +---lib
+ª   ª   ª   +---types
+ª   ª   +---test
+ª   +---bytes
+ª   +---call-bind-apply-helpers
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---call-bound
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---cfb
+ª   ª   +---dist
+ª   ª   +---types
+ª   +---codepage
+ª   ª   +---bits
+ª   ª   +---dist
+ª   ª   +---types
+ª   +---commander
+ª   ª   +---typings
+ª   +---concat-stream
+ª   +---content-disposition
+ª   +---content-type
+ª   +---cookie
+ª   +---cookie-signature
+ª   +---core-util-is
+ª   ª   +---lib
+ª   +---crc-32
+ª   ª   +---bin
+ª   ª   +---types
+ª   +---debug
+ª   ª   +---src
+ª   +---depd
+ª   ª   +---lib
+ª   ª       +---browser
+ª   +---destroy
+ª   +---dunder-proto
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---ee-first
+ª   +---ejs
+ª   ª   +---bin
+ª   ª   +---lib
+ª   +---encodeurl
+ª   +---es-define-property
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---es-errors
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---es-object-atoms
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---escape-html
+ª   +---etag
+ª   +---exit-on-epipe
+ª   +---express
+ª   ª   +---lib
+ª   ª       +---middleware
+ª   ª       +---router
+ª   +---fflate
+ª   ª   +---esm
+ª   ª   +---lib
+ª   ª   +---umd
+ª   +---filelist
+ª   +---finalhandler
+ª   +---forwarded
+ª   +---frac
+ª   ª   +---dist
+ª   ª   +---types
+ª   +---fresh
+ª   +---function-bind
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---get-intrinsic
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---get-proto
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---gopd
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---has-symbols
+ª   ª   +---.github
+ª   ª   +---test
+ª   ª       +---shams
+ª   +---hasown
+ª   ª   +---.github
+ª   +---http-errors
+ª   +---iconv-lite
+ª   ª   +---encodings
+ª   ª   ª   +---tables
+ª   ª   +---lib
+ª   +---inherits
+ª   +---ipaddr.js
+ª   ª   +---lib
+ª   +---isarray
+ª   +---jake
+ª   ª   +---bin
+ª   ª   +---lib
+ª   ª   ª   +---task
+ª   ª   ª   +---utils
+ª   ª   +---test
+ª   ª       +---integration
+ª   ª       ª   +---jakelib
+ª   ª       +---unit
+ª   +---math-intrinsics
+ª   ª   +---.github
+ª   ª   +---constants
+ª   ª   +---test
+ª   +---media-typer
+ª   +---merge-descriptors
+ª   +---methods
+ª   +---mime
+ª   ª   +---src
+ª   +---mime-db
+ª   +---mime-types
+ª   +---minimatch
+ª   ª   +---lib
+ª   +---minimist
+ª   ª   +---.github
+ª   ª   +---example
+ª   ª   +---test
+ª   +---mkdirp
+ª   ª   +---bin
+ª   +---ms
+ª   +---multer
+ª   ª   +---lib
+ª   ª   +---storage
+ª   +---negotiator
+ª   ª   +---lib
+ª   +---object-assign
+ª   +---object-inspect
+ª   ª   +---.github
+ª   ª   +---example
+ª   ª   +---test
+ª   ª       +---browser
+ª   +---on-finished
+ª   +---parseurl
+ª   +---path-to-regexp
+ª   +---picocolors
+ª   +---printj
+ª   ª   +---bin
+ª   ª   +---dist
+ª   ª   +---types
+ª   +---process-nextick-args
+ª   +---proxy-addr
+ª   +---qs
+ª   ª   +---.github
+ª   ª   +---dist
+ª   ª   +---lib
+ª   ª   +---test
+ª   +---range-parser
+ª   +---raw-body
+ª   +---readable-stream
+ª   ª   +---doc
+ª   ª   ª   +---wg-meetings
+ª   ª   +---lib
+ª   ª   ª   +---internal
+ª   ª   ª       +---streams
+ª   ª   +---node_modules
+ª   ª       +---safe-buffer
+ª   +---safe-buffer
+ª   +---safer-buffer
+ª   +---send
+ª   ª   +---node_modules
+ª   ª       +---ms
+ª   +---serve-static
+ª   +---setprototypeof
+ª   ª   +---test
+ª   +---side-channel
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---side-channel-list
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---side-channel-map
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---side-channel-weakmap
+ª   ª   +---.github
+ª   ª   +---test
+ª   +---ssf
+ª   ª   +---types
+ª   +---statuses
+ª   +---streamsearch
+ª   ª   +---.github
+ª   ª   ª   +---workflows
+ª   ª   +---lib
+ª   ª   +---test
+ª   +---string_decoder
+ª   ª   +---lib
+ª   ª   +---node_modules
+ª   ª       +---safe-buffer
+ª   +---toidentifier
+ª   +---type-is
+ª   +---typedarray
+ª   ª   +---example
+ª   ª   +---test
+ª   ª       +---server
+ª   +---unpipe
+ª   +---util-deprecate
+ª   +---utils-merge
+ª   +---vary
+ª   +---wmf
+ª   ª   +---dist
+ª   +---word
+ª   +---xlsx
+ª   ª   +---bin
+ª   ª   +---dist
+ª   ª   +---types
+ª   +---xlsx-js-style
+ª   ª   +---bin
+ª   ª   +---dist
+ª   ª   +---node_modules
+ª   ª   ª   +---.bin
+ª   ª   ª   +---adler-32
+ª   ª   ª   ª   +---bin
+ª   ª   ª   ª   +---types
+ª   ª   ª   +---codepage
+ª   ª   ª       +---bin
+ª   ª   ª       +---bits
+ª   ª   ª       +---dist
+ª   ª   ª       +---node_modules
+ª   ª   ª       ª   +---commander
+ª   ª   ª       ª       +---typings
+ª   ª   ª       +---types
+ª   ª   +---types
+ª   +---xtend
++---test-data
+ª   +---files
++---utils
++---views
+    +---partials
+</file>
+
+</files>

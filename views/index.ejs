@@ -1,0 +1,108 @@
+<%- include('partials/head', { title: 'GSTR-2B Reconciler' }) %>
+<%- include('partials/header') %>
+
+<main class="max-w-3xl w-full mx-auto px-4 sm:px-6 py-10">
+  <h1 class="text-3xl sm:text-4xl font-bold text-ink tracking-tight">Match your purchase books with GSTR-2B</h1>
+  <p class="mt-3 text-slate-600 max-w-xl">Upload both files and see which invoices match, which look like typos, and where input tax credit is at risk.</p>
+
+  <% if (error) { %>
+  <div role="alert" class="mt-6 rounded-lg border border-red-200 bg-red-50 text-red-800 px-4 py-3 flex gap-3">
+    <span aria-hidden="true" class="font-bold">!</span>
+    <p class="text-sm"><%= error %></p>
+  </div>
+  <% } %>
+
+  <form id="form" action="/reconcile" method="POST" enctype="multipart/form-data" class="mt-8" novalidate>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <% [
+        { name: 'books', title: 'Purchase Register (Books)', hint: 'Exported from Tally, Busy, Zoho or Excel' },
+        { name: 'portal', title: 'GSTR-2B Statement (Portal)', hint: 'Excel downloaded from the GST portal' }
+      ].forEach(f => { %>
+      <div>
+        <label for="<%= f.name %>" class="drop block cursor-pointer rounded-xl border-2 border-dashed border-slate-300 bg-white p-6 text-center transition hover:border-ink focus-within:border-ink focus-within:ring-2 focus-within:ring-ink/30" data-for="<%= f.name %>">
+          <span class="block font-semibold text-ink"><%= f.title %></span>
+          <span class="block mt-1 text-xs text-slate-500"><%= f.hint %></span>
+          <span class="mt-4 inline-block rounded-md bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700">Choose file or drop it here</span>
+          <span class="file-name mt-3 block text-sm text-emerald-700 font-medium break-all"></span>
+          <input id="<%= f.name %>" name="<%= f.name %>" type="file" accept=".xlsx,.xls,.csv" class="sr-only">
+        </label>
+        <p class="field-error mt-2 text-sm text-red-700 hidden" role="alert"></p>
+      </div>
+      <% }) %>
+    </div>
+
+    <div class="mt-5 max-w-xs">
+      <label for="period" class="block text-sm font-medium text-ink">GSTR-2B return period <span class="font-normal text-slate-500">(optional)</span></label>
+      <input id="period" name="period" type="month" class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink/30">
+      <p class="mt-1 text-xs text-slate-500">Used to tag unmatched invoices (e.g. Sep-2026) and catch them if the supplier files late. Left blank, we read it from the invoice dates.</p>
+    </div>
+
+    <p class="mt-3 text-xs text-slate-500">Supported: .xlsx, .xls, .csv, up to 15 MB each.</p>
+
+    <button id="submit" type="submit" class="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-6 py-3 font-semibold text-white hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ink disabled:opacity-70 disabled:cursor-wait">
+      <svg id="spinner" class="hidden h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity=".3" stroke-width="4"/><path d="M22 12a10 10 0 0 0-10-10" stroke="currentColor" stroke-width="4"/></svg>
+      <span id="submit-text">Reconcile now</span>
+    </button>
+  </form>
+
+  <section class="mt-12 grid gap-6 sm:grid-cols-2 text-sm">
+    <div class="rounded-xl bg-white border border-slate-200 p-5">
+      <h2 class="font-semibold text-ink">How invoices are matched</h2>
+      <ul class="mt-3 space-y-2 text-slate-600">
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-emerald-500 shrink-0"></span>Exact: same GSTIN, invoice number and taxable value.</li>
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-amber-400 shrink-0"></span>Probable: same GSTIN, value within ₹10, invoice number slightly different.</li>
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-red-500 shrink-0"></span>Missing in GSTR-2B: in your books only, so ITC is unclaimed.</li>
+        <li class="flex gap-2"><span class="mt-1.5 h-2.5 w-2.5 rounded-full bg-blue-500 shrink-0"></span>Missing in Books: on the portal only.</li>
+      </ul>
+    </div>
+    <div class="rounded-xl bg-white border border-slate-200 p-5">
+      <h2 class="font-semibold text-ink">Column names we look for</h2>
+      <p class="mt-3 text-slate-600">GSTIN, Invoice Number, Taxable Value are required. Supplier name, invoice date, IGST, CGST and SGST are picked up when present. Header rows can sit anywhere in the top 25 rows.</p>
+      <p class="mt-3 text-slate-600">Want to try it first?
+        <a class="font-medium text-ink underline" href="/sample/purchase-register-sample.csv">Sample books</a> and
+        <a class="font-medium text-ink underline" href="/sample/gstr2b-sample.csv">sample GSTR-2B</a>.</p>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
+<script>
+  (function () {
+    const OK = /\.(xlsx|xls|csv)$/i;
+    const inputs = [...document.querySelectorAll('input[type=file]')];
+
+    const setError = (input, msg) => {
+      const box = input.closest('div').querySelector('.field-error');
+      box.textContent = msg || '';
+      box.classList.toggle('hidden', !msg);
+    };
+    const showFile = (input) => {
+      const file = input.files[0];
+      const label = input.closest('label');
+      label.querySelector('.file-name').textContent = file ? '✓ ' + file.name : '';
+      setError(input, file && !OK.test(file.name) ? 'Only .xlsx, .xls and .csv files are supported.' : '');
+    };
+
+    inputs.forEach((input) => {
+      input.addEventListener('change', () => showFile(input));
+      const zone = input.closest('label');
+      ['dragenter', 'dragover'].forEach((e) => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('border-ink', 'bg-slate-50'); }));
+      ['dragleave', 'drop'].forEach((e) => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.remove('border-ink', 'bg-slate-50'); }));
+      zone.addEventListener('drop', (ev) => {
+        if (ev.dataTransfer.files.length) { input.files = ev.dataTransfer.files; showFile(input); }
+      });
+    });
+
+    document.getElementById('form').addEventListener('submit', (ev) => {
+      const bad = inputs.filter((input) => {
+        const file = input.files[0];
+        setError(input, !file ? 'Please choose a file.' : !OK.test(file.name) ? 'Only .xlsx, .xls and .csv files are supported.' : '');
+        return !file || !OK.test(file.name);
+      });
+      if (bad.length) { ev.preventDefault(); bad[0].focus(); return; }
+      document.getElementById('submit').disabled = true;
+      document.getElementById('spinner').classList.remove('hidden');
+      document.getElementById('submit-text').textContent = 'Reconciling…';
+    });
+  })();
+</script>

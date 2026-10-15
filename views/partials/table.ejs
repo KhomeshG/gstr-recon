@@ -1,0 +1,45 @@
+<%# Params: rows (plain invoice records), emptyMsg, actions (optional: adds WhatsApp / email follow-up column) %>
+<% const withActions = typeof actions !== 'undefined' && actions; %>
+<% if (!rows.length) { %>
+  <div class="py-14 text-center text-slate-500"><%= emptyMsg %></div>
+<% } else { %>
+<div class="overflow-x-auto">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 text-left text-slate-600">
+      <tr>
+        <th class="px-3 py-2 font-medium">Supplier</th>
+        <th class="px-3 py-2 font-medium">GSTIN</th>
+        <th class="px-3 py-2 font-medium">Invoice no.</th>
+        <th class="px-3 py-2 font-medium">Date</th>
+        <th class="px-3 py-2 font-medium text-right">Taxable value (₹)</th>
+        <th class="px-3 py-2 font-medium text-right">IGST</th>
+        <th class="px-3 py-2 font-medium text-right">CGST</th>
+        <th class="px-3 py-2 font-medium text-right">SGST</th>
+        <th class="px-3 py-2 font-medium text-right">Total tax (₹)</th>
+        <% if (withActions) { %><th class="px-3 py-2 font-medium text-right no-print">Actions</th><% } %>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      <% rows.forEach(r => { %>
+      <tr class="searchable hover:bg-slate-50">
+        <td class="px-3 py-2"><%= r.name || '—' %></td>
+        <td class="px-3 py-2 font-mono text-xs"><%= r.gstin %></td>
+        <td class="px-3 py-2"><%= r.invoiceRaw %></td>
+        <td class="px-3 py-2 whitespace-nowrap"><%= r.date || '—' %></td>
+        <td class="px-3 py-2 text-right num"><%= inr(r.taxable) %></td>
+        <td class="px-3 py-2 text-right num text-slate-500"><%= inr(r.igst) %></td>
+        <td class="px-3 py-2 text-right num text-slate-500"><%= inr(r.cgst) %></td>
+        <td class="px-3 py-2 text-right num text-slate-500"><%= inr(r.sgst) %></td>
+        <td class="px-3 py-2 text-right num font-medium"><%= inr(r.tax) %></td>
+        <% if (withActions) { %>
+        <td class="px-3 py-2 text-right whitespace-nowrap no-print">
+          <a href="<%= r.links.whatsapp %>" target="_blank" rel="noopener noreferrer" class="inline-block rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-semibold text-white hover:bg-emerald-700">Send WhatsApp Reminder</a>
+          <a href="<%= r.links.email %>" class="ml-1 inline-block rounded-md border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50">Draft Email</a>
+        </td>
+        <% } %>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<% } %>

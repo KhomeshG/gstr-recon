@@ -1,0 +1,185 @@
+{
+  "expected": {
+    "booksUsable": 25,
+    "portalUsable": 25,
+    "exact": 12,
+    "probable": 6,
+    "value": 2,
+    "missingPortal": 5,
+    "missingBooks": 5,
+    "skippedBooksRows": 3,
+    "itcAtRisk": 9270.1
+  },
+  "entries": [
+    {
+      "id": "T01",
+      "exp": "EXACT",
+      "b": "INV/2026/001",
+      "p": "INV/2026/001"
+    },
+    {
+      "id": "T02",
+      "exp": "EXACT",
+      "b": "inv-2026-002",
+      "p": "INV/2026/002"
+    },
+    {
+      "id": "T03",
+      "exp": "EXACT",
+      "b": "ns 1042",
+      "p": "NS-1042"
+    },
+    {
+      "id": "T04",
+      "exp": "EXACT",
+      "b": "1045",
+      "p": "1045"
+    },
+    {
+      "id": "T05",
+      "exp": "EXACT",
+      "b": "VH/2026/0210",
+      "p": "VH/2026/0210"
+    },
+    {
+      "id": "T06",
+      "exp": "EXACT",
+      "b": "MP-5521",
+      "p": "MP-5521"
+    },
+    {
+      "id": "T07a",
+      "exp": "EXACT",
+      "b": "KA/331",
+      "p": "KA/331"
+    },
+    {
+      "id": "T07b",
+      "exp": "EXACT",
+      "b": "KA/332",
+      "p": "KA/332"
+    },
+    {
+      "id": "T08",
+      "exp": "EXACT",
+      "b": "SL/00908",
+      "p": "SL/00908"
+    },
+    {
+      "id": "T09",
+      "exp": "EXACT",
+      "b": "BE-77",
+      "p": "BE-77"
+    },
+    {
+      "id": "T10a",
+      "exp": "EXACT",
+      "b": "CS/501",
+      "p": "CS/501"
+    },
+    {
+      "id": "T10b",
+      "exp": "MISSING_PORTAL",
+      "b": "CS/501"
+    },
+    {
+      "id": "T11",
+      "exp": "PROBABLE",
+      "b": "INV2026O12",
+      "p": "INV2026012"
+    },
+    {
+      "id": "T12",
+      "exp": "PROBABLE",
+      "b": "0045",
+      "p": "45"
+    },
+    {
+      "id": "T13",
+      "exp": "PROBABLE",
+      "b": "BILL-2209",
+      "p": "BILL-209"
+    },
+    {
+      "id": "T14",
+      "exp": "PROBABLE",
+      "b": "VH/2026/0300",
+      "p": "VH-2026-0301"
+    },
+    {
+      "id": "T15a",
+      "exp": "MISSING_PORTAL",
+      "b": "GC/88"
+    },
+    {
+      "id": "T15b",
+      "exp": "MISSING_BOOKS",
+      "p": "GC/89"
+    },
+    {
+      "id": "T16a",
+      "exp": "PROBABLE",
+      "b": "KA/410",
+      "p": "KA/41O"
+    },
+    {
+      "id": "T16b",
+      "exp": "PROBABLE",
+      "b": "KA/490",
+      "p": "KA/49O"
+    },
+    {
+      "id": "T17",
+      "exp": "VALUE_MISMATCH",
+      "b": "NS/2088",
+      "p": "NS/2088"
+    },
+    {
+      "id": "T18",
+      "exp": "VALUE_MISMATCH",
+      "b": "SL/1200",
+      "p": "SL/1200"
+    },
+    {
+      "id": "T19",
+      "exp": "EXACT*",
+      "b": "BE-120",
+      "p": "BE-120"
+    },
+    {
+      "id": "T20",
+      "exp": "MISSING_PORTAL",
+      "b": "KA/777"
+    },
+    {
+      "id": "T21a",
+      "exp": "MISSING_PORTAL",
+      "b": "BE-90"
+    },
+    {
+      "id": "T21b",
+      "exp": "MISSING_BOOKS",
+      "p": "BE-90"
+    },
+    {
+      "id": "T22",
+      "exp": "MISSING_PORTAL",
+      "b": "CN/12"
+    },
+    {
+      "id": "T23",
+      "exp": "MISSING_BOOKS",
+      "p": "GC/120"
+    },
+    {
+      "id": "T24",
+      "exp": "MISSING_BOOKS",
+      "p": "SL/908"
+    },
+    {
+      "id": "T25",
+      "exp": "MISSING_BOOKS",
+      "p": "OCP/9001"
+    }
+  ]
+}

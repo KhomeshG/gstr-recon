@@ -1,0 +1,18 @@
+'use strict';
+const books = `Supplier Name,GSTIN,Invoice No,Invoice Date,Taxable Value,IGST,CGST,SGST
+Shree Traders,27AABCS1234A1Z5,INV/2026/01,05-09-2026,10000.00,0,900.00,900.00
+Nagpur Steel Co,27AAACN5678B1Z2,NS-1042,08-09-2026,50000.00,9000.00,0,0
+Orange City Papers,27AAECO9012C1Z8,OCP/77,11-09-2026,7500.50,0,675.05,675.05
+Vidarbha Hardware,27AAFCV3456D1Z1,VH/2026/0210,14-09-2026,20000.00,0,1800.00,1800.00
+Metro Packaging,27AAGCM7890E1Z4,MP-5521,18-09-2026,15000.00,2700.00,0,0
+Kisan Agro Supplies,27AAHCK1122F1Z9,KA/331,22-09-2026,4200.00,0,378.00,378.00`;
+
+const portal = `Trade Name,GSTIN of supplier,Invoice number,Invoice Date,Taxable Value (₹),Integrated Tax(₹),Central Tax(₹),State/UT Tax(₹)
+Shree Traders,27AABCS1234A1Z5,INV-2026-01,05-09-2026,10000.00,0,900.00,900.00
+Nagpur Steel Co,27AAACN5678B1Z2,NS1042,08-09-2026,50000.00,9000.00,0,0
+Orange City Papers,27AAECO9012C1Z8,OCP/077,11-09-2026,7503.00,0,675.27,675.27
+Vidarbha Hardware,27AAFCV3456D1Z1,VH/2026/0210,14-09-2026,19000.00,0,1710.00,1710.00
+Metro Packaging,27AAGCM7890E1Z4,MP-5521,18-09-2026,15000.00,2700.00,0,0
+Sai Logistics,27AAICS3344G1Z3,SL/908,25-09-2026,8800.00,0,792.00,792.00`;
+
+module.exports = { 'purchase-register-sample.csv': books, 'gstr2b-sample.csv': portal };

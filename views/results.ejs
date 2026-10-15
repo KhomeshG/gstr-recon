@@ -1,0 +1,295 @@
+<%- include('partials/head', { title: 'Reconciliation results' }) %>
+<%- include('partials/header') %>
+
+<%
+  const s = summary;
+  const tabs = [
+    { key: 'exact',    label: 'Exact matches',      count: results.exact.length,           dot: 'bg-emerald-500', text: 'text-emerald-700' },
+    { key: 'mismatch', label: 'Mismatches / typos', count: results.mismatches.length,      dot: 'bg-amber-400',   text: 'text-amber-700'   },
+    { key: 'portal',   label: 'Missing in GSTR-2B', count: results.missingInPortal.length, dot: 'bg-red-500',     text: 'text-red-700'     },
+    { key: 'books',    label: 'Missing in Books',   count: results.missingInBooks.length,  dot: 'bg-blue-500',    text: 'text-blue-700'    },
+    { key: 'late',     label: 'Late Claimed ITC (Prior Month Match)', count: results.lateClaimed.length, dot: 'bg-violet-500', text: 'text-violet-700' },
+    { key: 'skipped',  label: 'Skipped / Invalid Rows', count: skippedRows.length, dot: 'bg-slate-500', text: 'text-slate-700' },
+  ].filter(t => !['late', 'skipped'].includes(t.key) || t.count > 0);
+  const firstTab = (tabs.find(t => t.key === tab) || tabs.find(t => t.key !== 'exact' && t.count > 0) || tabs[0]).key;
+  const FIX_FIELDS = [
+    { key: 'gstin',   label: 'GSTIN',          placeholder: '27AABCS1234A1Z5' },
+    { key: 'invoice', label: 'Invoice no.',    placeholder: 'INV/001' },
+    { key: 'taxable', label: 'Taxable value',  placeholder: '10000.00' },
+    { key: 'tax',     label: 'Total tax',      placeholder: '1800.00' },
+  ];
+  const show = (v) => String(v ?? '');
+%>
+
+<main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+  <div class="flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-ink tracking-tight">Reconciliation results</h1>
+      <p class="mt-1 text-sm text-slate-600 break-all">Books: <span class="font-medium"><%= files.books %></span> &nbsp;|&nbsp; GSTR-2B: <span class="font-medium"><%= files.portal %></span> &nbsp;|&nbsp; Period: <span class="font-medium"><%= periodLabel %></span></p>
+    </div>
+    <div class="flex flex-wrap gap-3 no-print">
+      <a href="/export/<%= id %>" class="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-700">Export summary to Excel</a>
+      <button onclick="window.print()" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Print</button>
+      <a href="/" class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium hover:bg-slate-50">Start over</a>
+    </div>
+  </div>
+
+  <% if (warnings.length) { %>
+  <div role="status" class="mt-5 rounded-lg border border-amber-200 bg-amber-50 text-amber-900 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-2">
+    <div class="space-y-1"><% warnings.forEach(w => { %><p><%= w %></p><% }) %></div>
+    <% if (skippedRows.length) { %>
+    <button type="button" data-goto="skipped" class="no-print rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700">Review &amp; fix skipped rows (<%= skippedRows.length %>) →</button>
+    <% } %>
+  </div>
+  <% } %>
+
+  <% if (results.lateClaimed.length) { %>
+  <div role="status" class="mt-4 rounded-lg border border-violet-200 bg-violet-50 text-violet-900 px-4 py-3 text-sm flex flex-wrap items-center justify-between gap-2">
+    <p><strong><%= results.lateClaimed.length %> invoice(s)</strong> flagged missing in earlier months now appear in <%= periodLabel %> GSTR-2B — ₹<span class="num"><%= inr(s.lateClaimed.tax) %></span> of ITC can be claimed.</p>
+    <button type="button" data-goto="late" class="no-print rounded-md bg-violet-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-violet-700">View late claims →</button>
+  </div>
+  <% } %>
+
+  <!-- Summary -->
+  <section class="mt-6 grid gap-4 md:grid-cols-3" aria-label="Summary">
+    <div class="rounded-xl bg-white border border-slate-200 p-5">
+      <h2 class="text-sm font-medium text-slate-500">Invoices</h2>
+      <p class="mt-2 flex items-baseline gap-2 text-ink">
+        <span class="text-3xl font-bold num"><%= s.booksCount %></span><span class="text-sm text-slate-500">in books</span>
+        <span class="text-slate-300">vs</span>
+        <span class="text-3xl font-bold num"><%= s.portalCount %></span><span class="text-sm text-slate-500">on portal</span>
+      </p>
+      <p class="mt-3 text-sm text-slate-600"><%= s.matchRate %>% of your books invoices matched exactly</p>
+      <div class="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden"><div class="h-full bg-emerald-500" style="width: <%= s.matchRate %>%"></div></div>
+    </div>
+
+    <div class="rounded-xl bg-white border border-slate-200 p-5 border-l-4 border-l-emerald-500">
+      <h2 class="text-sm font-medium text-slate-500">Matched</h2>
+      <p class="mt-2 text-3xl font-bold text-emerald-700 num"><%= s.exact.count %> <span class="text-sm font-normal text-slate-500">invoices</span></p>
+      <p class="mt-3 text-sm text-slate-600">Taxable value ₹<span class="num"><%= inr(s.exact.taxable) %></span></p>
+      <p class="text-sm text-slate-600">Tax value ₹<span class="num font-medium"><%= inr(s.exact.tax) %></span></p>
+    </div>
+
+    <div class="rounded-xl bg-white border border-slate-200 p-5 border-l-4 border-l-red-500">
+      <h2 class="text-sm font-medium text-slate-500">Discrepancies</h2>
+      <p class="mt-2 text-3xl font-bold text-red-700 num"><%= s.discrepancyCount %> <span class="text-sm font-normal text-slate-500">to review</span></p>
+      <p class="mt-3 text-sm text-slate-600" title="Tax on invoices missing from GSTR-2B, plus any extra tax in books on mismatched invoices">ITC at risk ₹<span class="num font-semibold text-red-700"><%= inr(s.itcAtRisk) %></span></p>
+      <p class="text-sm text-slate-600">On portal, not in books: ₹<span class="num"><%= inr(s.missingInBooks.tax) %></span></p>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <section class="mt-8 rounded-xl bg-white border border-slate-200 overflow-hidden">
+    <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 no-print">
+      <div role="tablist" class="flex overflow-x-auto">
+        <% tabs.forEach(t => { %>
+        <button role="tab" data-tab="<%= t.key %>" aria-selected="false" class="tab-btn flex items-center gap-2 whitespace-nowrap border-b-2 border-transparent px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 <%= t.text %>">
+          <span class="h-2.5 w-2.5 rounded-full <%= t.dot %>"></span><%= t.label %>
+          <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700 num"><%= t.count %></span>
+        </button>
+        <% }) %>
+      </div>
+      <div class="p-3">
+        <input id="search" type="search" placeholder="Search supplier, GSTIN or invoice…" class="w-full md:w-72 rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink/30">
+      </div>
+    </div>
+
+    <div id="panel-exact" class="tab-panel" hidden>
+      <%- include('partials/table', { rows: results.exact.map(m => m.books), emptyMsg: 'No exact matches found. Check that both files are for the same period.' }) %>
+    </div>
+
+    <div id="panel-mismatch" class="tab-panel" hidden>
+      <% if (!results.mismatches.length) { %>
+        <div class="py-14 text-center text-slate-500">No mismatches. Every matched invoice agreed exactly.</div>
+      <% } else { %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-amber-50 text-left text-amber-900">
+            <tr>
+              <th class="px-3 py-2 font-medium">GSTIN / Supplier</th>
+              <th class="px-3 py-2 font-medium">Invoice in books</th>
+              <th class="px-3 py-2 font-medium">Invoice on portal</th>
+              <th class="px-3 py-2 font-medium text-right">Taxable (books)</th>
+              <th class="px-3 py-2 font-medium text-right">Taxable (portal)</th>
+              <th class="px-3 py-2 font-medium text-right">Tax diff (₹)</th>
+              <th class="px-3 py-2 font-medium">Why it's flagged</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% results.mismatches.forEach(m => { const d = Math.round((m.books.tax - m.portal.tax) * 100) / 100; %>
+            <tr class="searchable hover:bg-amber-50/40">
+              <td class="px-3 py-2"><div class="font-mono text-xs"><%= m.books.gstin %></div><div class="text-slate-500"><%= m.books.name || m.portal.name %></div></td>
+              <td class="px-3 py-2"><%= m.books.invoiceRaw %></td>
+              <td class="px-3 py-2"><%= m.portal.invoiceRaw %></td>
+              <td class="px-3 py-2 text-right num"><%= inr(m.books.taxable) %></td>
+              <td class="px-3 py-2 text-right num"><%= inr(m.portal.taxable) %></td>
+              <td class="px-3 py-2 text-right num <%= d !== 0 ? 'text-red-700 font-medium' : 'text-slate-500' %>"><%= inr(d) %></td>
+              <td class="px-3 py-2"><span class="inline-block rounded-full bg-amber-100 px-2.5 py-0.5 text-xs text-amber-900"><%= m.reason %></span></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+    <div id="panel-portal" class="tab-panel" hidden>
+      <div class="px-4 pt-4 flex flex-wrap items-center justify-between gap-3 no-print">
+        <p class="text-sm text-slate-600">These are in your books but not on GSTR-2B. ITC can't be claimed until the supplier files them. They are saved to the carry-forward ledger under <strong><%= periodLabel %></strong>.</p>
+        <% if (results.missingInPortal.length) { %>
+        <a href="/export-non-compliant?id=<%= id %>" class="rounded-lg bg-red-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-700">Export Non-Compliant Suppliers Sheet</a>
+        <% } %>
+      </div>
+      <%- include('partials/table', { rows: results.missingInPortal, emptyMsg: 'Nothing missing from GSTR-2B. Nice.', actions: true }) %>
+    </div>
+
+    <div id="panel-books" class="tab-panel" hidden>
+      <p class="px-4 pt-4 text-sm text-slate-600 no-print">These are on GSTR-2B but not in your purchase register. You may have missed booking them.</p>
+      <%- include('partials/table', { rows: results.missingInBooks, emptyMsg: 'Everything on the portal is in your books.' }) %>
+    </div>
+
+    <% if (results.lateClaimed.length) { %>
+    <div id="panel-late" class="tab-panel" hidden>
+      <p class="px-4 pt-4 text-sm text-slate-600 no-print">Invoices that were missing from an earlier month's GSTR-2B and have now been filed by the supplier. They have been cleared from the pending ledger.</p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-violet-50 text-left text-violet-900">
+            <tr>
+              <th class="px-3 py-2 font-medium">Supplier</th>
+              <th class="px-3 py-2 font-medium">Invoice no.</th>
+              <th class="px-3 py-2 font-medium">Flagged in</th>
+              <th class="px-3 py-2 font-medium">Appeared in</th>
+              <th class="px-3 py-2 font-medium text-right">Taxable (₹)</th>
+              <th class="px-3 py-2 font-medium text-right">Tax (₹)</th>
+              <th class="px-3 py-2 font-medium">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% results.lateClaimed.forEach(l => { %>
+            <tr class="searchable hover:bg-violet-50/40">
+              <td class="px-3 py-2"><div><%= l.portal.name || l.ledger.name || '—' %></div><div class="font-mono text-xs text-slate-500"><%= l.portal.gstin %></div></td>
+              <td class="px-3 py-2"><%= l.portal.invoiceRaw %></td>
+              <td class="px-3 py-2 whitespace-nowrap"><%= l.ledger.periodLabel %></td>
+              <td class="px-3 py-2 whitespace-nowrap"><%= periodLabel %></td>
+              <td class="px-3 py-2 text-right num"><%= inr(l.portal.taxable) %></td>
+              <td class="px-3 py-2 text-right num font-medium"><%= inr(l.portal.tax) %></td>
+              <td class="px-3 py-2 max-w-sm">
+                <span class="inline-block rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-900">Late Claimed ITC (Prior Month Match)</span>
+                <p class="mt-1 text-xs <%= l.taxableDiff ? 'text-amber-800' : 'text-slate-600' %>"><%= l.message %></p>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% } %>
+
+    <% if (skippedRows.length) { %>
+    <div id="panel-skipped" class="tab-panel" hidden>
+      <p class="px-4 pt-4 text-sm text-slate-600 no-print">These rows were left out of the reconciliation. Fill in what's missing and re-process a row to bring it back in — no need to re-upload. Row numbers are Excel row numbers in your file.</p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50 text-left text-slate-700">
+            <tr>
+              <th class="px-3 py-2 font-medium">File</th>
+              <th class="px-3 py-2 font-medium">Excel row</th>
+              <th class="px-3 py-2 font-medium">Raw input data</th>
+              <th class="px-3 py-2 font-medium">Why it was skipped</th>
+              <th class="px-3 py-2 font-medium no-print">Fix &amp; re-process</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <% skippedRows.forEach(sr => { %>
+            <tr class="searchable align-top hover:bg-slate-50">
+              <td class="px-3 py-3 whitespace-nowrap"><%= sr.sourceLabel %></td>
+              <td class="px-3 py-3 num"><%= sr.rowIndex %></td>
+              <td class="px-3 py-3 max-w-xs">
+                <% const entries = Object.entries(sr.rawData); %>
+                <% if (!entries.length) { %><span class="text-slate-400">(empty)</span><% } else { %>
+                <dl class="grid grid-cols-[auto,1fr] gap-x-3 gap-y-0.5 text-xs">
+                  <% entries.forEach(([k, v]) => { %><dt class="text-slate-500"><%= k %></dt><dd class="break-all"><%= show(v) %></dd><% }) %>
+                </dl>
+                <% } %>
+              </td>
+              <td class="px-3 py-3"><span class="inline-block rounded-full bg-red-100 px-2.5 py-0.5 text-xs text-red-800"><%= sr.reasonForSkipping %></span></td>
+              <td class="px-3 py-3 no-print">
+                <form class="reprocess-form" data-id="<%= id %>">
+                  <input type="hidden" name="rowId" value="<%= sr.id %>">
+                  <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                    <% FIX_FIELDS.forEach(ff => { const bad = sr.badFields.includes(ff.key);
+                       const pre = ff.key === 'tax' ? '' : show(sr.fields[ff.key]); %>
+                    <label class="block text-xs text-slate-600"><%= ff.label %>
+                      <input name="<%= ff.key %>" value="<%= pre %>" placeholder="<%= ff.placeholder %>" class="mt-0.5 w-full rounded border px-2 py-1 text-sm <%= bad ? 'border-red-400 bg-red-50' : 'border-slate-300' %>">
+                    </label>
+                    <% }) %>
+                  </div>
+                  <div class="mt-2 flex items-center gap-3">
+                    <button type="submit" class="rounded-md bg-ink px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 disabled:opacity-60">Re-process Row</button>
+                    <p class="form-error text-xs text-red-700" role="alert"></p>
+                  </div>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% } %>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
+<script>
+  (function () {
+    const buttons = [...document.querySelectorAll('.tab-btn')];
+    const panels = [...document.querySelectorAll('.tab-panel')];
+
+    const show = (key) => {
+      buttons.forEach((b) => {
+        const on = b.dataset.tab === key;
+        b.setAttribute('aria-selected', on);
+        b.classList.toggle('tab-active', on);
+      });
+      panels.forEach((p) => { p.hidden = p.id !== 'panel-' + key; });
+      applySearch();
+    };
+
+    const applySearch = () => {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      document.querySelectorAll('.tab-panel:not([hidden]) .searchable').forEach((row) => {
+        row.hidden = q && !row.textContent.toLowerCase().includes(q);
+      });
+    };
+
+    buttons.forEach((b) => b.addEventListener('click', () => show(b.dataset.tab)));
+    document.querySelectorAll('[data-goto]').forEach((el) => el.addEventListener('click', () => {
+      show(el.dataset.goto);
+      document.getElementById('panel-' + el.dataset.goto)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+
+    document.querySelectorAll('.reprocess-form').forEach((form) => form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const btn = form.querySelector('button[type=submit]');
+      const err = form.querySelector('.form-error');
+      err.textContent = '';
+      btn.disabled = true; btn.textContent = 'Re-processing…';
+      try {
+        const res = await fetch('/reprocess/' + form.dataset.id, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Could not re-process this row.');
+        location.href = '/results/' + form.dataset.id + (data.remaining ? '?tab=skipped' : '');
+      } catch (e) {
+        err.textContent = e.message;
+        btn.disabled = false; btn.textContent = 'Re-process Row';
+      }
+    }));
+    document.getElementById('search').addEventListener('input', applySearch);
+    show('<%= firstTab %>');
+  })();
+</script>
